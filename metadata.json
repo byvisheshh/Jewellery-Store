@@ -1,0 +1,6 @@
+{
+  "name": "Vanya Jewellers - Luxury Indian Heritage & Diamond Jewellery",
+  "description": "Discover timeless 22K gold, certified diamond and heritage bridal jewellery handcrafted with exceptional artistry and BIS hallmarked purity.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
