@@ -29,15 +29,15 @@ export interface StoreConfig {
 }
 
 export const STORE_CONFIG: StoreConfig = {
-  storeName: "VANYA JEWELLERS",
+  storeName: "NILAM JEWELLERS",
   tagline: "Timeless Jewellery. Crafted for Your Moments.",
   subTagline: "Discover beautifully crafted jewellery that celebrates love, tradition and life's most memorable moments.",
   phone: "+919820154321",
   displayPhone: "+91 98201 54321",
-  email: "concierge@vanyajewellers.com",
+  email: "concierge@nilamjewellers.com",
   whatsappNumber: "919820154321",
   defaultWhatsAppMessage: "Hi, I am interested in your jewellery collection. I would like to know more.",
-  instagramHandle: "vanyajewellers",
+  instagramHandle: "nilamjewellers",
   yearEstablished: 1974,
   hallmarkLicense: "HM-BIS-916-MH-2024",
   flagshipAddress: {
