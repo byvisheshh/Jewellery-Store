@@ -20,6 +20,7 @@ export type MetalType = "22K Gold" | "18K Gold" | "18K White Gold" | "Platinum &
 
 export interface Product {
   id: string;
+  slug: string;
   name: string;
   category: JewelleryCategory;
   jewelleryType: JewelleryType;
@@ -47,11 +48,15 @@ export interface Product {
   hallmarkCode: string;
   featured?: boolean;
   signature?: boolean;
+  metaTitle: string;
+  metaDescription: string;
+  relatedBlogSlugs: string[];
 }
 
 export const PRODUCTS: Product[] = [
   {
     id: "prod-001",
+    slug: "aadrika-royal-filigree-rani-haar",
     name: "Aadrika Royal Filigree Rani Haar",
     category: "Gold",
     jewelleryType: "Necklaces",
@@ -76,9 +81,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-MH-7840",
     featured: true,
     signature: true,
+    metaTitle: "Aadrika Royal Filigree Rani Haar (22K Gold) | Nilam Jewellers",
+    metaDescription: "Handcrafted 78.4g solid 22K 916 BIS Hallmarked royal Rani Haar necklace featuring exquisite Rajasthani filigree wirework. Explore at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "7-things-to-check-before-buying-gold-jewellery",
+      "22k-vs-18k-gold-what-is-the-difference",
+    ],
   },
   {
     id: "prod-002",
+    slug: "the-celestia-round-solitaire-ring",
     name: "The Celestia Round Solitaire Ring",
     category: "Diamond",
     jewelleryType: "Rings",
@@ -109,9 +122,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-750-DIAM-152",
     featured: true,
     signature: true,
+    metaTitle: "The Celestia 1.52ct Solitaire Diamond Ring | Nilam Jewellers",
+    metaDescription: "GIA-certified 1.52ct VVS1 E Triple Excellent round brilliant solitaire ring in 18K gold. Schedule a viewing with Nilam Jewellers diamond concierge.",
+    relatedBlogSlugs: [
+      "how-to-choose-the-perfect-engagement-ring",
+      "diamond-buying-guide-for-beginners",
+      "22k-vs-18k-gold-what-is-the-difference",
+    ],
   },
   {
     id: "prod-003",
+    slug: "padmavathi-nakashi-antique-gold-bangles",
     name: "Padmavathi Nakashi Antique Gold Bangles (Pair)",
     category: "Gold",
     jewelleryType: "Bangles",
@@ -136,9 +157,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-KADA-642",
     featured: true,
     signature: true,
+    metaTitle: "Padmavathi Nakashi 22K Antique Gold Bangles | Nilam Jewellers",
+    metaDescription: "Solid 64.2g pair of 22K 916 hallmarked Nakashi kadas with zero resin filling. Hand-carved peacock motifs with secure screw closure at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "7-things-to-check-before-buying-gold-jewellery",
+      "how-to-take-care-of-your-gold-jewellery",
+      "how-to-choose-gold-jewellery-for-every-occasion",
+    ],
   },
   {
     id: "prod-004",
+    slug: "maharani-polki-emerald-bridal-choker-set",
     name: "Maharani Polki & Emerald Bridal Choker Set",
     category: "Bridal",
     jewelleryType: "Bridal Sets",
@@ -164,9 +193,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-POLKI-142",
     featured: true,
     signature: true,
+    metaTitle: "Maharani Polki & Emerald Royal Bridal Set | Nilam Jewellers",
+    metaDescription: "Monumental uncut syndicate Polki choker set with Zambian emeralds, pearls, earrings, and maang tikka. Explore bridal couture at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "complete-guide-to-indian-bridal-jewellery",
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "how-to-build-a-timeless-jewellery-collection",
+    ],
   },
   {
     id: "prod-005",
+    slug: "nocturne-cascade-diamond-drop-earrings",
     name: "Nocturne Cascade Diamond Drop Earrings",
     category: "Diamond",
     jewelleryType: "Earrings",
@@ -197,9 +234,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-750-IGI-480",
     featured: true,
     signature: true,
+    metaTitle: "Nocturne 4.80ct Cascade Diamond Drop Earrings | Nilam Jewellers",
+    metaDescription: "Articulated 4.80 carat IGI-certified natural diamond drop chandelier earrings in 18K gold. Perfect for gala evenings and bridal receptions.",
+    relatedBlogSlugs: [
+      "diamond-buying-guide-for-beginners",
+      "jewellery-trends-to-watch-in-2026",
+      "how-to-build-a-timeless-jewellery-collection",
+    ],
   },
   {
     id: "prod-006",
+    slug: "rajvansh-mens-solid-gold-kada",
     name: "Rajvansh Men's Solid Gold Kada",
     category: "Men's Jewellery",
     jewelleryType: "Bracelets",
@@ -224,9 +269,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-MENS-528",
     featured: true,
     signature: true,
+    metaTitle: "Rajvansh Men's Solid 22K Gold Kada (52.8g) | Nilam Jewellers",
+    metaDescription: "Commanding 52.8g solid 22K 916 hallmarked cylindrical gold kada for men with beveled edges and satin brush finish. Buy at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "jewellery-trends-to-watch-in-2026",
+      "7-things-to-check-before-buying-gold-jewellery",
+      "how-to-choose-gold-jewellery-for-every-occasion",
+    ],
   },
   {
     id: "prod-007",
+    slug: "surya-temple-nakshi-choker",
     name: "Surya Temple Nakshi Choker",
     category: "Gold",
     jewelleryType: "Necklaces",
@@ -251,9 +304,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-TMPL-624",
     featured: false,
     signature: false,
+    metaTitle: "Surya Temple Nakshi 22K Gold Choker | Nilam Jewellers",
+    metaDescription: "Sacred 62.4g pure 22K solid gold temple choker featuring Surya Bhagwan relief and south sea pearls. Crafted by master Madurai karigars.",
+    relatedBlogSlugs: [
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "how-to-take-care-of-your-gold-jewellery",
+      "7-things-to-check-before-buying-gold-jewellery",
+    ],
   },
   {
     id: "prod-008",
+    slug: "lumiere-tennis-diamond-bracelet",
     name: "Lumière Tennis Diamond Bracelet",
     category: "Diamond",
     jewelleryType: "Bracelets",
@@ -284,9 +345,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-750-TNIS-550",
     featured: false,
     signature: false,
+    metaTitle: "Lumière 5.50ct Diamond Tennis Bracelet (18K) | Nilam Jewellers",
+    metaDescription: "Classic 5.50ct continuous diamond tennis bracelet in 18K gold featuring 52 IGI-certified round brilliant diamonds with double safety clasps.",
+    relatedBlogSlugs: [
+      "diamond-buying-guide-for-beginners",
+      "gold-jewellery-as-a-gift-what-should-you-buy",
+      "how-to-build-a-timeless-jewellery-collection",
+    ],
   },
   {
     id: "prod-009",
+    slug: "mayura-heritage-jhumkas-with-seed-pearls",
     name: "Mayura Heritage Jhumkas with Seed Pearls",
     category: "Gold",
     jewelleryType: "Earrings",
@@ -311,9 +380,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-JHMK-286",
     featured: false,
     signature: false,
+    metaTitle: "Mayura Heritage 22K Gold Peacock Jhumkas | Nilam Jewellers",
+    metaDescription: "Handcrafted triple-tiered 22K 916 gold dome jhumkas with peacock motifs and Basra-style seed pearls. Discover authentic artistry at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "how-to-build-a-timeless-jewellery-collection",
+      "how-to-take-care-of-your-gold-jewellery",
+    ],
   },
   {
     id: "prod-010",
+    slug: "elysian-solitaire-pendant-18k-chain",
     name: "Elysian Solitaire Pendant with 18K Chain",
     category: "Everyday Jewellery",
     jewelleryType: "Pendants",
@@ -344,9 +421,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-750-ELYS-065",
     featured: true,
     signature: false,
+    metaTitle: "Elysian 0.65ct Solitaire Pendant with 18K Chain | Nilam Jewellers",
+    metaDescription: "Timeless 0.65ct GIA-certified round brilliant solitaire pendant suspended on an 18K gold chain. The ideal gift for milestones and boardroom elegance.",
+    relatedBlogSlugs: [
+      "gold-jewellery-as-a-gift-what-should-you-buy",
+      "diamond-buying-guide-for-beginners",
+      "how-to-build-a-timeless-jewellery-collection",
+    ],
   },
   {
     id: "prod-011",
+    slug: "vikramaditya-mens-cuban-link-gold-chain",
     name: "Vikramaditya Men's Cuban Link Gold Chain",
     category: "Men's Jewellery",
     jewelleryType: "Necklaces",
@@ -371,9 +456,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-CHIN-462",
     featured: false,
     signature: false,
+    metaTitle: "Vikramaditya 46.2g Solid 22K Cuban Gold Chain | Nilam Jewellers",
+    metaDescription: "Heavy solid 46.2g 22K 916 hallmarked diamond-cut Cuban curb chain for men. 22-inch length with custom parrot lock at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "jewellery-trends-to-watch-in-2026",
+      "7-things-to-check-before-buying-gold-jewellery",
+      "how-to-choose-gold-jewellery-for-every-occasion",
+    ],
   },
   {
     id: "prod-012",
+    slug: "avani-modern-diamond-mangalsutra",
     name: "Avani Modern Diamond Mangalsutra",
     category: "Everyday Jewellery",
     jewelleryType: "Necklaces",
@@ -404,9 +497,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-750-AVNI-042",
     featured: false,
     signature: false,
+    metaTitle: "Avani Modern Diamond Mangalsutra (18K) | Nilam Jewellers",
+    metaDescription: "Contemporary 18K gold diamond mangalsutra with 0.42ct IGI-certified chevron pendant and delicate black beads. Engineered for everyday comfort.",
+    relatedBlogSlugs: [
+      "how-to-build-a-timeless-jewellery-collection",
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "jewellery-trends-to-watch-in-2026",
+    ],
   },
   {
     id: "prod-013",
+    slug: "navratna-royal-heritage-navratna-ring",
     name: "Navratna Royal Heritage Navratna Ring",
     category: "Gold",
     jewelleryType: "Rings",
@@ -430,9 +531,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-NAVR-098",
     featured: false,
     signature: false,
+    metaTitle: "Navratna Royal Heritage 22K Gold Ring | Nilam Jewellers",
+    metaDescription: "Auspicious nine-gemstone Navratna ring handcrafted in 22K gold following Vedic astrological proportions with certified natural gems.",
+    relatedBlogSlugs: [
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "gold-jewellery-as-a-gift-what-should-you-buy",
+      "7-things-to-check-before-buying-gold-jewellery",
+    ],
   },
   {
     id: "prod-014",
+    slug: "vasantika-emerald-pearl-choker",
     name: "Vasantika Emerald & Pearl Choker",
     category: "Bridal",
     jewelleryType: "Necklaces",
@@ -457,9 +566,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-EMRL-843",
     featured: false,
     signature: false,
+    metaTitle: "Vasantika Emerald & Pearl Bridal Choker Set | Nilam Jewellers",
+    metaDescription: "Exquisite Colombian emerald bead necklace with 22K gold filigree pendant and matching earrings. Handcrafted bridal luxury at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "complete-guide-to-indian-bridal-jewellery",
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "how-to-take-care-of-your-gold-jewellery",
+    ],
   },
   {
     id: "prod-015",
+    slug: "lakshmi-kasu-mala-heritage-gold-necklace",
     name: "Lakshmi Kasu Mala Heritage Gold Necklace",
     category: "Gold",
     jewelleryType: "Necklaces",
@@ -484,9 +601,17 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-916-KASU-560",
     featured: false,
     signature: false,
+    metaTitle: "Lakshmi Kasu Mala Solid 22K Gold Coin Necklace | Nilam Jewellers",
+    metaDescription: "Authentic South Indian 56g solid 22K 916 gold Kasu Mala necklace with embossed Goddess Lakshmi coins and ruby cabochons. Buy at Nilam Jewellers.",
+    relatedBlogSlugs: [
+      "how-to-choose-gold-jewellery-for-every-occasion",
+      "7-things-to-check-before-buying-gold-jewellery",
+      "how-to-build-a-timeless-jewellery-collection",
+    ],
   },
   {
     id: "prod-016",
+    slug: "aarav-mens-diamond-signet-ring",
     name: "Aarav Men's Diamond Signet Ring",
     category: "Men's Jewellery",
     jewelleryType: "Rings",
@@ -517,5 +642,12 @@ export const PRODUCTS: Product[] = [
     hallmarkCode: "BIS-750-MENS-112",
     featured: false,
     signature: false,
+    metaTitle: "Aarav Men's Diamond Architectural Signet Ring | Nilam Jewellers",
+    metaDescription: "Solid 11.2g 18K gold signet ring for men featuring 0.55ct invisible-set baguette and princess diamonds with satin-brushed comfort shank.",
+    relatedBlogSlugs: [
+      "jewellery-trends-to-watch-in-2026",
+      "diamond-buying-guide-for-beginners",
+      "22k-vs-18k-gold-what-is-the-difference",
+    ],
   },
 ];

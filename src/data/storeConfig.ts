@@ -2,6 +2,8 @@ export interface StoreConfig {
   storeName: string;
   tagline: string;
   subTagline: string;
+  siteUrl: string;
+  canonicalDomain: string;
   phone: string;
   displayPhone: string;
   email: string;
@@ -32,6 +34,8 @@ export const STORE_CONFIG: StoreConfig = {
   storeName: "NILAM JEWELLERS",
   tagline: "Timeless Jewellery. Crafted for Your Moments.",
   subTagline: "Discover beautifully crafted jewellery that celebrates love, tradition and life's most memorable moments.",
+  siteUrl: "https://www.nilamjewellers.com",
+  canonicalDomain: "https://www.nilamjewellers.com",
   phone: "+919820154321",
   displayPhone: "+91 98201 54321",
   email: "concierge@nilamjewellers.com",

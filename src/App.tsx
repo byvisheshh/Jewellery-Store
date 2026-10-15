@@ -5,8 +5,10 @@
 
 import React, { useState, useEffect } from "react";
 import { STORE_CONFIG } from "./data/storeConfig";
-import { PRODUCTS, Product, JewelleryCategory } from "./data/products";
+import { PRODUCTS, Product } from "./data/products";
 import { BLOG_ARTICLES, BlogArticle } from "./data/blogs";
+import { getMetadataForRoute, normalizePath } from "./utils/seo";
+import { navigateTo } from "./components/Link";
 
 // Global Components
 import { GoldRateTicker } from "./components/GoldRateTicker";
@@ -27,15 +29,22 @@ import { CategoryLandingPage } from "./pages/CategoryLandingPage";
 import { CustomJewelleryPage } from "./pages/CustomJewelleryPage";
 import { BlogListingPage } from "./pages/BlogListingPage";
 import { BlogPostPage } from "./pages/BlogPostPage";
+import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { ContactPage } from "./pages/ContactPage";
 import { StoreLocationsPage } from "./pages/StoreLocationsPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsConditionsPage } from "./pages/TermsConditionsPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 export default function App() {
-  const [currentRoute, setCurrentRoute] = useState<string>("home");
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      return normalizePath(window.location.pathname || "/");
+    }
+    return "/";
+  });
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [activeArticle, setActiveArticle] = useState<BlogArticle | null>(null);
 
   // Modals & Drawers
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -46,7 +55,7 @@ export default function App() {
   // Wishlist state
   const [wishlist, setWishlist] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem("vanya_wishlist");
+      const saved = localStorage.getItem("nilam_wishlist") || localStorage.getItem("vanya_wishlist");
       return saved ? JSON.parse(saved) : ["prod-001", "prod-004"];
     } catch {
       return ["prod-001", "prod-004"];
@@ -55,11 +64,26 @@ export default function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem("vanya_wishlist", JSON.stringify(wishlist));
+      localStorage.setItem("nilam_wishlist", JSON.stringify(wishlist));
     } catch {
-      // ignore
+      // ignore storage errors
     }
   }, [wishlist]);
+
+  // Synchronize state with URL changes (popstate and custom app:navigate)
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(normalizePath(window.location.pathname || "/"));
+    };
+
+    window.addEventListener("popstate", handleLocationChange);
+    window.addEventListener("app:navigate", handleLocationChange);
+
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+      window.removeEventListener("app:navigate", handleLocationChange);
+    };
+  }, []);
 
   const handleToggleWishlist = (product: Product) => {
     setWishlist((prev) =>
@@ -70,28 +94,33 @@ export default function App() {
   };
 
   const isWishlisted = (productId: string) => wishlist.includes(productId);
-
   const wishlistedProducts = PRODUCTS.filter((p) => wishlist.includes(p.id));
 
-  const handleNavigate = (route: string) => {
-    if (route.startsWith("blog-")) {
-      const slug = route.replace("blog-", "");
-      const found = BLOG_ARTICLES.find((a) => a.slug === slug);
-      if (found) {
-        setActiveArticle(found);
-        setCurrentRoute("blog-detail");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
+  const handleNavigate = (routeOrPath: string) => {
+    let target = routeOrPath;
+    if (!target.startsWith("/")) {
+      if (target === "home") target = "/";
+      else if (target === "about") target = "/about";
+      else if (target === "contact") target = "/contact";
+      else if (target === "locations" || target === "store-locations") target = "/store-locations";
+      else if (target === "collections") target = "/collections";
+      else if (target === "gold") target = "/collections/gold-jewellery";
+      else if (target === "diamond") target = "/collections/diamond-jewellery";
+      else if (target === "bridal") target = "/collections/bridal-jewellery";
+      else if (target === "mens") target = "/collections/mens-jewellery";
+      else if (target === "everyday") target = "/collections/everyday-jewellery";
+      else if (target === "custom") target = "/custom-jewellery";
+      else if (target === "blog") target = "/blog";
+      else if (target.startsWith("blog-")) {
+        target = `/blog/${target.replace("blog-", "")}`;
+      } else if (target.startsWith("prod-")) {
+        const prod = PRODUCTS.find((p) => p.id === target);
+        target = prod ? `/products/${prod.slug}` : `/products/${target}`;
+      } else if (target === "privacy-policy") target = "/privacy-policy";
+      else if (target === "terms-conditions") target = "/terms-conditions";
+      else target = `/${target}`;
     }
-    setCurrentRoute(route);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleSelectArticle = (article: BlogArticle) => {
-    setActiveArticle(article);
-    setCurrentRoute("blog-detail");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigateTo(target);
   };
 
   const handleOpenAppointment = (context?: string) => {
@@ -99,229 +128,243 @@ export default function App() {
     setIsAppointmentOpen(true);
   };
 
-  // Compute dynamic SEO metadata
-  let seoTitle = "";
-  let seoDescription = "";
+  // Compute dynamic SEO metadata for current URL
+  const routeMetadata = getMetadataForRoute(currentPath);
 
-  if (currentRoute === "home") {
-    seoTitle = "Vanya Jewellers – Luxury Indian Heritage & Diamond Jewellery";
-    seoDescription =
-      "Discover timeless 22K gold, certified diamond and heritage bridal jewellery handcrafted with exceptional artistry and BIS hallmarked purity.";
-  } else if (currentRoute === "about") {
-    seoTitle = "Our 50-Year Heritage & Master Karigars";
-    seoDescription =
-      "Learn about Vanya Jewellers' five decades of goldsmithing legacy, BIS hallmarking standards, and hereditary Karigar craftsmanship.";
-  } else if (currentRoute === "collections") {
-    seoTitle = "Complete High Jewellery Catalogue";
-    seoDescription =
-      "Explore 22K gold necklaces, certified solitaire diamond rings, and royal bridal trousseau sets.";
-  } else if (currentRoute === "gold") {
-    seoTitle = "22K BIS Hallmarked Gold Jewellery";
-    seoDescription =
-      "Exquisite Rajasthani filigree, temple nakashi, and heirloom 22K gold necklaces and kadas.";
-  } else if (currentRoute === "diamond") {
-    seoTitle = "Certified Natural Diamond Jewellery & Solitaires";
-    seoDescription =
-      "GIA and IGI certified natural diamond rings, tennis bracelets, and cascading cocktail earrings.";
-  } else if (currentRoute === "bridal") {
-    seoTitle = "Royal Indian Bridal Jewellery Trousseau";
-    seoDescription =
-      "For the beginning of forever: uncut syndicate polki chokers, layered rani haars, and auspicious bridal sets.";
-  } else if (currentRoute === "mens") {
-    seoTitle = "Men's Fine Jewellery | Solid 22K Gold Kadas & Chains";
-    seoDescription =
-      "Architectural signet rings, solid 22K gold kadas, and diamond-cut curb chains designed for men.";
-  } else if (currentRoute === "everyday") {
-    seoTitle = "Everyday Luxury Gold Jewellery";
-    seoDescription =
-      "Minimalist 18K gold chains, modern diamond mangalsutras, and lightweight daily elegance.";
-  } else if (currentRoute === "custom") {
-    seoTitle = "Bespoke Custom Jewellery Atelier";
-    seoDescription =
-      "Commission unique BIS hallmarked jewellery with our head designer, 3D CAD modeling, and master goldsmiths.";
-  } else if (currentRoute === "blog") {
-    seoTitle = "Jewellery Journal & Connoisseur Guides";
-    seoDescription =
-      "Comprehensive educational guides on 22K vs 18K gold, diamond 4Cs, bridal jewellery planning, and care rituals.";
-  } else if (currentRoute === "blog-detail" && activeArticle) {
-    seoTitle = activeArticle.metaTitle;
-    seoDescription = activeArticle.metaDescription;
-  } else if (currentRoute === "contact") {
-    seoTitle = "Contact Our Concierge & Flagship Salons";
-    seoDescription =
-      "Connect with our client concierge, schedule in-store appointments, and find directions to our Mumbai flagship.";
-  } else if (currentRoute === "locations") {
-    seoTitle = "Showroom Locations: Mumbai, Delhi, Bengaluru, Hyderabad";
-    seoDescription =
-      "Visit our experiential jewellery salons with private bridal viewing suites and certified gemologists.";
-  } else if (currentRoute === "privacy-policy") {
-    seoTitle = "Privacy Policy & Client Discretion";
-  } else if (currentRoute === "terms-conditions") {
-    seoTitle = "Terms of Sale, Hallmarking & Lifetime Buyback";
-  }
+  // Router View Renderer
+  const renderCurrentView = () => {
+    // 1. Homepage
+    if (currentPath === "/" || currentPath === "") {
+      return (
+        <HomePage
+          onNavigate={handleNavigate}
+          onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          isWishlisted={isWishlisted}
+          onToggleWishlist={handleToggleWishlist}
+          onOpenAppointment={() => handleOpenAppointment("General Viewing")}
+        />
+      );
+    }
+
+    // 2. About Us
+    if (currentPath === "/about") {
+      return (
+        <AboutPage
+          onOpenAppointment={() => handleOpenAppointment("Our Story & Heritage")}
+          onNavigate={handleNavigate}
+        />
+      );
+    }
+
+    // 3. Contact Us
+    if (currentPath === "/contact") {
+      return (
+        <ContactPage
+          onOpenAppointment={() => handleOpenAppointment("Contact Inquiry")}
+          onNavigateToLocations={() => navigateTo("/store-locations")}
+        />
+      );
+    }
+
+    // 4. Store Locations
+    if (currentPath === "/store-locations" || currentPath === "/locations") {
+      return (
+        <StoreLocationsPage
+          onOpenAppointment={(showroom) =>
+            handleOpenAppointment(`Showroom Visit: ${showroom}`)
+          }
+        />
+      );
+    }
+
+    // 5. Complete Catalogue
+    if (currentPath === "/collections") {
+      return (
+        <CollectionsPage
+          onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          isWishlisted={isWishlisted}
+          onToggleWishlist={handleToggleWishlist}
+          initialCategory="All"
+        />
+      );
+    }
+
+    // 6. Category: Gold Jewellery
+    if (currentPath === "/collections/gold-jewellery" || currentPath === "/gold") {
+      return (
+        <CategoryLandingPage
+          category="Gold"
+          onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          isWishlisted={isWishlisted}
+          onToggleWishlist={handleToggleWishlist}
+          onOpenAppointment={() => handleOpenAppointment("22K Gold Viewing")}
+          onNavigate={handleNavigate}
+        />
+      );
+    }
+
+    // 7. Category: Diamond Jewellery
+    if (currentPath === "/collections/diamond-jewellery" || currentPath === "/diamond") {
+      return (
+        <CategoryLandingPage
+          category="Diamond"
+          onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          isWishlisted={isWishlisted}
+          onToggleWishlist={handleToggleWishlist}
+          onOpenAppointment={() => handleOpenAppointment("Diamond Solitaires")}
+          onNavigate={handleNavigate}
+        />
+      );
+    }
+
+    // 8. Category: Bridal Jewellery
+    if (currentPath === "/collections/bridal-jewellery" || currentPath === "/bridal") {
+      return (
+        <CategoryLandingPage
+          category="Bridal"
+          onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          isWishlisted={isWishlisted}
+          onToggleWishlist={handleToggleWishlist}
+          onOpenAppointment={() => handleOpenAppointment("Bridal Trousseau")}
+          onNavigate={handleNavigate}
+        />
+      );
+    }
+
+    // 9. Category: Men's Jewellery
+    if (currentPath === "/collections/mens-jewellery" || currentPath === "/mens") {
+      return (
+        <CategoryLandingPage
+          category="Men's Jewellery"
+          onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          isWishlisted={isWishlisted}
+          onToggleWishlist={handleToggleWishlist}
+          onOpenAppointment={() => handleOpenAppointment("Men's Jewellery")}
+          onNavigate={handleNavigate}
+        />
+      );
+    }
+
+    // 10. Category: Everyday Jewellery
+    if (currentPath === "/collections/everyday-jewellery" || currentPath === "/everyday") {
+      return (
+        <CategoryLandingPage
+          category="Everyday Jewellery"
+          onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          isWishlisted={isWishlisted}
+          onToggleWishlist={handleToggleWishlist}
+          onOpenAppointment={() => handleOpenAppointment("Everyday Jewellery")}
+          onNavigate={handleNavigate}
+        />
+      );
+    }
+
+    // 11. Custom Bespoke Atelier
+    if (currentPath === "/custom-jewellery" || currentPath === "/custom") {
+      return (
+        <CustomJewelleryPage
+          onOpenAppointment={() => handleOpenAppointment("Custom Bespoke Atelier")}
+        />
+      );
+    }
+
+    // 12. Blog Listing
+    if (currentPath === "/blog") {
+      return (
+        <BlogListingPage
+          onSelectArticle={(article) => navigateTo(`/blog/${article.slug}`)}
+        />
+      );
+    }
+
+    // 13. Individual Blog Article (/blog/:slug)
+    if (currentPath.startsWith("/blog/")) {
+      const slug = currentPath.replace("/blog/", "").replace(/\/$/, "").trim();
+      const article = BLOG_ARTICLES.find((a) => a.slug === slug);
+
+      if (article) {
+        return (
+          <BlogPostPage
+            article={article}
+            onBack={() => navigateTo("/blog")}
+            onSelectArticle={(art) => navigateTo(`/blog/${art.slug}`)}
+            onOpenAppointment={() => handleOpenAppointment(article.title)}
+          />
+        );
+      }
+      return <NotFoundPage />;
+    }
+
+    // 14. Individual Product Page (/products/:slug)
+    if (currentPath.startsWith("/products/")) {
+      const slug = currentPath.replace("/products/", "").replace(/\/$/, "").trim();
+      const product = PRODUCTS.find((p) => p.slug === slug || p.id === slug);
+
+      if (product) {
+        return (
+          <ProductDetailPage
+            product={product}
+            isWishlisted={isWishlisted(product.id)}
+            onToggleWishlist={handleToggleWishlist}
+            onOpenAppointment={(ctx) => handleOpenAppointment(ctx || product.name)}
+            onSelectProduct={(p) => navigateTo(`/products/${p.slug}`)}
+          />
+        );
+      }
+      return <NotFoundPage />;
+    }
+
+    // 15. Legal Policies
+    if (currentPath === "/privacy-policy") {
+      return <PrivacyPolicyPage />;
+    }
+
+    if (currentPath === "/terms-conditions") {
+      return <TermsConditionsPage />;
+    }
+
+    // 16. Fallback: 404 Page Not Found
+    return <NotFoundPage />;
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-[#1E1B18] selection:bg-[#EAE0CE] selection:text-[#1E1B18]">
-      {/* Dynamic SEO Tagging & Schema Markup */}
-      <SEOHead
-        title={seoTitle}
-        description={seoDescription}
-        product={selectedProduct}
-        article={currentRoute === "blog-detail" ? activeArticle : null}
-      />
+      {/* Dynamic SEO Tagging & Schema.org JSON-LD Graph */}
+      <SEOHead metadata={routeMetadata} />
 
       {/* Live Gold Bullion Rate Ticker Strip */}
       <GoldRateTicker />
 
-      {/* Primary 3-Zone Luxury Navbar */}
+      {/* Primary 3-Zone Luxury Navbar with crawlable semantic links */}
       <Navbar
-        currentRoute={currentRoute}
-        onNavigate={handleNavigate}
+        currentPath={currentPath}
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenAppointment={() => handleOpenAppointment("General Viewing")}
         wishlistCount={wishlist.length}
       />
 
-      {/* Main View Router */}
-      <main className="flex-1">
-        {currentRoute === "home" && (
-          <HomePage
-            onNavigate={handleNavigate}
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            isWishlisted={isWishlisted}
-            onToggleWishlist={handleToggleWishlist}
-            onOpenAppointment={() => handleOpenAppointment("General Viewing")}
-          />
-        )}
-
-        {currentRoute === "about" && (
-          <AboutPage
-            onOpenAppointment={() => handleOpenAppointment("Our Story & Heritage")}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentRoute === "collections" && (
-          <CollectionsPage
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            isWishlisted={isWishlisted}
-            onToggleWishlist={handleToggleWishlist}
-            initialCategory="All"
-          />
-        )}
-
-        {currentRoute === "gold" && (
-          <CategoryLandingPage
-            category="Gold"
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            isWishlisted={isWishlisted}
-            onToggleWishlist={handleToggleWishlist}
-            onOpenAppointment={() => handleOpenAppointment("22K Gold Viewing")}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentRoute === "diamond" && (
-          <CategoryLandingPage
-            category="Diamond"
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            isWishlisted={isWishlisted}
-            onToggleWishlist={handleToggleWishlist}
-            onOpenAppointment={() => handleOpenAppointment("Diamond Solitaires")}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentRoute === "bridal" && (
-          <CategoryLandingPage
-            category="Bridal"
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            isWishlisted={isWishlisted}
-            onToggleWishlist={handleToggleWishlist}
-            onOpenAppointment={() => handleOpenAppointment("Bridal Trousseau")}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentRoute === "mens" && (
-          <CategoryLandingPage
-            category="Men's Jewellery"
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            isWishlisted={isWishlisted}
-            onToggleWishlist={handleToggleWishlist}
-            onOpenAppointment={() => handleOpenAppointment("Men's Jewellery")}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentRoute === "everyday" && (
-          <CategoryLandingPage
-            category="Everyday Jewellery"
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            isWishlisted={isWishlisted}
-            onToggleWishlist={handleToggleWishlist}
-            onOpenAppointment={() => handleOpenAppointment("Everyday Jewellery")}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentRoute === "custom" && (
-          <CustomJewelleryPage
-            onOpenAppointment={() => handleOpenAppointment("Custom Bespoke Atelier")}
-          />
-        )}
-
-        {currentRoute === "blog" && (
-          <BlogListingPage onSelectArticle={handleSelectArticle} />
-        )}
-
-        {currentRoute === "blog-detail" && activeArticle && (
-          <BlogPostPage
-            article={activeArticle}
-            onBack={() => handleNavigate("blog")}
-            onSelectArticle={handleSelectArticle}
-            onOpenAppointment={() => handleOpenAppointment(activeArticle.title)}
-          />
-        )}
-
-        {currentRoute === "contact" && (
-          <ContactPage
-            onOpenAppointment={() => handleOpenAppointment("Contact Inquiry")}
-            onNavigateToLocations={() => handleNavigate("locations")}
-          />
-        )}
-
-        {currentRoute === "locations" && (
-          <StoreLocationsPage
-            onOpenAppointment={(showroom) =>
-              handleOpenAppointment(`Showroom Visit: ${showroom}`)
-            }
-          />
-        )}
-
-        {currentRoute === "privacy-policy" && <PrivacyPolicyPage />}
-
-        {currentRoute === "terms-conditions" && <TermsConditionsPage />}
+      {/* Main Content Router */}
+      <main className="flex-1" id="main-content">
+        {renderCurrentView()}
       </main>
 
-      {/* Floating WhatsApp Button */}
+      {/* Floating WhatsApp Concierge Button */}
       <WhatsAppButton />
 
-      {/* Footer */}
+      {/* Footer with Crawlable Category & Journal Links */}
       <Footer
-        onNavigate={handleNavigate}
         onOpenAppointment={() => handleOpenAppointment("Showroom Viewing")}
       />
 
-      {/* Product Detail Modal */}
+      {/* Quick View Modal for Products */}
       <ProductModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
         isWishlisted={selectedProduct ? isWishlisted(selectedProduct.id) : false}
         onToggleWishlist={handleToggleWishlist}
         onBookAppointment={(productName) => handleOpenAppointment(productName)}
-        onNavigateToLocations={() => handleNavigate("locations")}
+        onNavigateToLocations={() => navigateTo("/store-locations")}
       />
 
       {/* Appointment Booking Modal */}
@@ -331,21 +374,29 @@ export default function App() {
         preselectedProduct={appointmentContext}
       />
 
-      {/* Search Modal */}
+      {/* Search Modal with Instant Article & Product Navigation */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        onSelectProduct={(p) => setSelectedProduct(p)}
-        onSelectArticle={handleSelectArticle}
+        onSelectProduct={(p) => {
+          setSelectedProduct(null);
+          navigateTo(`/products/${p.slug}`);
+        }}
+        onSelectArticle={(a) => {
+          navigateTo(`/blog/${a.slug}`);
+        }}
       />
 
-      {/* Wishlist Drawer */}
+      {/* Saved Items Wishlist Drawer */}
       <WishlistDrawer
         isOpen={isWishlistOpen}
         onClose={() => setIsWishlistOpen(false)}
         items={wishlistedProducts}
         onRemoveItem={(id) => setWishlist((prev) => prev.filter((pId) => pId !== id))}
-        onSelectProduct={(p) => setSelectedProduct(p)}
+        onSelectProduct={(p) => {
+          setIsWishlistOpen(false);
+          navigateTo(`/products/${p.slug}`);
+        }}
         onBookAppointment={(itemsSummary) => handleOpenAppointment(itemsSummary)}
       />
     </div>

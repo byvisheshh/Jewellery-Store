@@ -5,6 +5,7 @@ import { PRODUCTS, Product } from "../data/products";
 import { TESTIMONIALS } from "../data/testimonials";
 import { ProductCard } from "../components/ProductCard";
 import { ImageWithFallback } from "../components/ImageWithFallback";
+import { Link } from "../components/Link";
 import { 
   ArrowRight, 
   ShieldCheck, 
@@ -41,35 +42,35 @@ export const HomePage: React.FC<HomePageProps> = ({
     {
       title: "Gold Jewellery",
       description: "22K BIS Hallmarked heritage necklaces, bangles, and temple heirlooms.",
-      route: "gold",
+      path: "/collections/gold-jewellery",
       image: IMAGES.collections.gold.url,
       alt: IMAGES.collections.gold.alt,
     },
     {
       title: "Diamond Jewellery",
       description: "Certified natural solitaires, tennis bracelets, and cascading chandeliers.",
-      route: "diamond",
+      path: "/collections/diamond-jewellery",
       image: IMAGES.collections.diamond.url,
       alt: IMAGES.collections.diamond.alt,
     },
     {
       title: "Bridal Jewellery",
       description: "Royal Polki jadau, antique chokers, and multi-tier Rani Haars for your forever moment.",
-      route: "bridal",
+      path: "/collections/bridal-jewellery",
       image: IMAGES.collections.bridal.url,
       alt: IMAGES.collections.bridal.alt,
     },
     {
       title: "Everyday Jewellery",
       description: "Refined 18K minimalist pendants, lightweight mangalsutras, and daily chains.",
-      route: "everyday",
+      path: "/collections/everyday-jewellery",
       image: IMAGES.collections.everyday.url,
       alt: IMAGES.collections.everyday.alt,
     },
     {
       title: "Men's Jewellery",
       description: "Substantial solid 22K kadas, diamond-cut curb chains, and architectural signets.",
-      route: "mens",
+      path: "/collections/mens-jewellery",
       image: IMAGES.collections.mens.url,
       alt: IMAGES.collections.mens.alt,
     },
@@ -173,12 +174,13 @@ export const HomePage: React.FC<HomePageProps> = ({
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={() => onNavigate("collections")}
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#AA8B56] hover:bg-[#8F7040] text-white font-medium text-xs uppercase tracking-[0.15em] transition-all cursor-pointer shadow-lg hover:shadow-xl"
+            <Link
+              to="/collections"
+              className="w-full sm:w-auto px-8 py-3.5 bg-[#AA8B56] hover:bg-[#8F7040] text-white font-medium text-xs uppercase tracking-[0.15em] transition-all cursor-pointer shadow-lg hover:shadow-xl text-center inline-block"
+              title="Explore Complete High Jewellery Catalogue"
             >
               Explore Collection
-            </button>
+            </Link>
             <button
               onClick={onOpenAppointment}
               className="w-full sm:w-auto px-8 py-3.5 bg-transparent hover:bg-white/10 text-[#FAF8F5] border border-[#D8C6A5]/70 font-medium text-xs uppercase tracking-[0.15em] transition-all cursor-pointer backdrop-blur-sm"
@@ -211,39 +213,40 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {featuredCollections.map((col, idx) => (
-            <div
+            <article
               key={col.title}
-              onClick={() => onNavigate(col.route)}
-              className={`group relative bg-white border border-[#E8E2D8] hover:border-[#AA8B56] overflow-hidden cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md ${
+              className={`group relative bg-white border border-[#E8E2D8] hover:border-[#AA8B56] overflow-hidden transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between ${
                 idx === 2 ? "md:col-span-2 lg:col-span-1" : ""
               }`}
             >
-              <div className="aspect-[4/3] sm:aspect-[16/11] overflow-hidden bg-[#FAF8F5]">
-                <ImageWithFallback
-                  src={col.image}
-                  alt={col.alt}
-                  aspectRatio="aspect-[4/3]"
-                  className="group-hover:scale-105 transition-transform duration-700 w-full h-full object-cover"
-                />
-              </div>
+              <Link to={col.path} className="block w-full" title={`Explore ${col.title}`}>
+                <div className="aspect-[4/3] sm:aspect-[16/11] overflow-hidden bg-[#FAF8F5]">
+                  <ImageWithFallback
+                    src={col.image}
+                    alt={col.alt}
+                    aspectRatio="aspect-[4/3]"
+                    className="group-hover:scale-105 transition-transform duration-700 w-full h-full object-cover"
+                  />
+                </div>
 
-              <div className="p-6 space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-serif text-xl text-[#1E1B18] group-hover:text-[#8F7040] transition-colors font-medium">
-                    {col.title}
-                  </h3>
-                  <ArrowRight className="w-4 h-4 text-[#AA8B56] group-hover:translate-x-1 transition-transform" />
+                <div className="p-6 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-serif text-xl text-[#1E1B18] group-hover:text-[#8F7040] transition-colors font-medium">
+                      {col.title}
+                    </h3>
+                    <ArrowRight className="w-4 h-4 text-[#AA8B56] group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  <p className="text-xs text-[#666057] leading-relaxed">
+                    {col.description}
+                  </p>
+                  <div className="pt-2">
+                    <span className="text-[11px] uppercase tracking-wider text-[#8F7040] font-medium inline-flex items-center gap-1 group-hover:underline">
+                      Explore {col.title} <ArrowUpRight className="w-3 h-3" />
+                    </span>
+                  </div>
                 </div>
-                <p className="text-xs text-[#666057] leading-relaxed">
-                  {col.description}
-                </p>
-                <div className="pt-2">
-                  <span className="text-[11px] uppercase tracking-wider text-[#8F7040] font-medium inline-flex items-center gap-1">
-                    Discover Collection <ArrowUpRight className="w-3 h-3" />
-                  </span>
-                </div>
-              </div>
-            </div>
+              </Link>
+            </article>
           ))}
         </div>
       </section>
@@ -293,13 +296,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
 
               <div className="pt-2">
-                <button
-                  onClick={() => onNavigate("about")}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#1E1B18] hover:bg-[#382917] text-white font-medium text-xs uppercase tracking-widest transition-colors cursor-pointer"
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#1E1B18] hover:bg-[#382917] text-white font-medium text-xs uppercase tracking-widest transition-colors"
+                  title={`Discover ${STORE_CONFIG.storeName} Heritage`}
                 >
                   <span>Discover Our Story</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#D8C6A5]" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -321,13 +325,14 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          <button
-            onClick={() => onNavigate("collections")}
-            className="self-start md:self-auto text-xs uppercase tracking-wider text-[#1E1B18] hover:text-[#8F7040] font-semibold border-b border-[#1E1B18] pb-1 inline-flex items-center gap-1 transition-colors cursor-pointer"
+          <Link
+            to="/collections"
+            className="self-start md:self-auto text-xs uppercase tracking-wider text-[#1E1B18] hover:text-[#8F7040] font-semibold border-b border-[#1E1B18] pb-1 inline-flex items-center gap-1 transition-colors"
+            title="Browse Complete Jewellery Catalogue"
           >
             <span>View All Creations</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -425,12 +430,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={() => onNavigate("bridal")}
-                className="px-8 py-3.5 bg-[#AA8B56] hover:bg-[#8F7040] text-white font-semibold text-xs uppercase tracking-widest transition-colors cursor-pointer"
+              <Link
+                to="/collections/bridal-jewellery"
+                className="px-8 py-3.5 bg-[#AA8B56] hover:bg-[#8F7040] text-white font-semibold text-xs uppercase tracking-widest transition-colors inline-block text-center"
+                title="Explore Royal Indian Bridal Jewellery"
               >
                 Explore Bridal Collection
-              </button>
+              </Link>
               <button
                 onClick={onOpenAppointment}
                 className="px-8 py-3.5 bg-transparent hover:bg-white/10 text-white border border-[#D8C6A5] font-medium text-xs uppercase tracking-widest transition-colors cursor-pointer"
@@ -457,21 +463,21 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          <button
-            onClick={() => onNavigate("blog")}
-            className="self-start md:self-auto text-xs uppercase tracking-wider text-[#1E1B18] hover:text-[#8F7040] font-semibold border-b border-[#1E1B18] pb-1 inline-flex items-center gap-1 transition-colors cursor-pointer"
+          <Link
+            to="/blog"
+            className="self-start md:self-auto text-xs uppercase tracking-wider text-[#1E1B18] hover:text-[#8F7040] font-semibold border-b border-[#1E1B18] pb-1 inline-flex items-center gap-1 transition-colors"
+            title="View All Jewellery Buying Guides & Journal Articles"
           >
             <span>Read All Articles</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {guideCards.map((card) => (
-            <div
+            <article
               key={card.slug}
-              onClick={() => onNavigate(`blog-${card.slug}`)}
-              className="p-6 bg-white border border-[#E8E2D8] hover:border-[#AA8B56] transition-all cursor-pointer group flex flex-col justify-between"
+              className="p-6 bg-white border border-[#E8E2D8] hover:border-[#AA8B56] transition-all group flex flex-col justify-between shadow-xs"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-[11px] text-[#8E877D] uppercase tracking-wider">
@@ -479,15 +485,23 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <span>{card.readTime}</span>
                 </div>
                 <h3 className="font-serif text-lg text-[#1E1B18] group-hover:text-[#8F7040] transition-colors leading-snug">
-                  {card.title}
+                  <Link to={`/blog/${card.slug}`} title={card.title}>
+                    {card.title}
+                  </Link>
                 </h3>
               </div>
 
-              <div className="pt-6 flex items-center justify-between text-xs text-[#AA8B56] font-medium">
-                <span>Read Full Guide</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="pt-6 flex items-center justify-between text-xs text-[#AA8B56] font-medium border-t border-[#F4EFE6] mt-4">
+                <Link
+                  to={`/blog/${card.slug}`}
+                  className="hover:underline inline-flex items-center gap-1"
+                  title={`Read full guide: ${card.title}`}
+                >
+                  <span>Read Full Guide</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </section>

@@ -1,60 +1,70 @@
 import React, { useEffect } from "react";
 import { STORE_CONFIG } from "../data/storeConfig";
-import { Product } from "../data/products";
-import { BlogArticle } from "../data/blogs";
+import { RouteMetadata } from "../utils/seo";
 
 interface SEOHeadProps {
-  title?: string;
-  description?: string;
-  canonicalUrl?: string;
-  product?: Product | null;
-  article?: BlogArticle | null;
+  metadata: RouteMetadata;
 }
 
-export const SEOHead: React.FC<SEOHeadProps> = ({
-  title,
-  description,
-  canonicalUrl,
-  product,
-  article,
-}) => {
+export const SEOHead: React.FC<SEOHeadProps> = ({ metadata }) => {
   useEffect(() => {
-    const finalTitle = title
-      ? `${title} | ${STORE_CONFIG.storeName}`
-      : `${STORE_CONFIG.storeName} – Luxury Indian Heritage & Diamond Jewellery`;
+    // 1. Document Title
+    document.title = metadata.title;
 
-    const finalDescription =
-      description ||
-      "Discover timeless 22K gold, certified diamond and heritage bridal jewellery handcrafted with exceptional artistry and BIS hallmarked purity.";
+    // Helper to set or create meta tag
+    const setMetaTag = (attribute: string, attrValue: string, content: string) => {
+      let element = document.querySelector(`meta[${attribute}="${attrValue}"]`);
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(attribute, attrValue);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("content", content);
+    };
 
-    document.title = finalTitle;
+    // 2. Standard Meta Tags
+    setMetaTag("name", "description", metadata.description);
+    setMetaTag("name", "robots", metadata.robots);
 
-    // Update meta description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute("content", finalDescription);
+    // 3. OpenGraph Tags
+    setMetaTag("property", "og:title", metadata.title);
+    setMetaTag("property", "og:description", metadata.description);
+    setMetaTag("property", "og:url", metadata.canonicalUrl);
+    setMetaTag("property", "og:type", metadata.ogType);
+    setMetaTag("property", "og:image", metadata.ogImage);
+    setMetaTag("property", "og:site_name", STORE_CONFIG.storeName);
+
+    // 4. Twitter Card Tags
+    setMetaTag("name", "twitter:card", "summary_large_image");
+    setMetaTag("name", "twitter:title", metadata.title);
+    setMetaTag("name", "twitter:description", metadata.description);
+    setMetaTag("name", "twitter:image", metadata.ogImage);
+
+    // 5. Canonical Link Tag
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement("link");
+      canonicalLink.setAttribute("rel", "canonical");
+      document.head.appendChild(canonicalLink);
     }
+    canonicalLink.setAttribute("href", metadata.canonicalUrl);
 
-    // Update OpenGraph Title & Desc
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute("content", finalTitle);
-    }
-    let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc) {
-      ogDesc.setAttribute("content", finalDescription);
-    }
-
-    // JSON-LD Structured Data
+    // 6. JSON-LD Structured Data
     const existingScript = document.getElementById("jsonld-structured-data");
     if (existingScript) {
       existingScript.remove();
     }
 
-    let schemaData: any = {
-      "@context": "https://schema.org",
+    const jsonLdGraph: any[] = [];
+
+    // Core LocalBusiness / JewelryStore Schema
+    const storeSchema: any = {
       "@type": "JewelryStore",
+      "@id": `${STORE_CONFIG.canonicalDomain}/#store`,
       name: STORE_CONFIG.storeName,
+      url: STORE_CONFIG.canonicalDomain,
+      logo: metadata.ogImage,
+      image: metadata.ogImage,
       description: STORE_CONFIG.subTagline,
       telephone: STORE_CONFIG.phone,
       email: STORE_CONFIG.email,
@@ -66,64 +76,132 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         postalCode: STORE_CONFIG.flagshipAddress.pincode,
         addressCountry: "IN",
       },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 18.9298,
+        longitude: 72.8335,
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "10:30",
+          closes: "20:30",
+        },
+      ],
       priceRange: "₹₹₹₹",
-      openingHours: "Mo-Su 10:30-20:30",
+      currenciesAccepted: "INR",
+      paymentAccepted: "Cash, Credit Card, UPI, Bank Transfer",
     };
+    jsonLdGraph.push(storeSchema);
 
-    if (article) {
-      schemaData = {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        headline: article.title,
-        description: article.metaDescription,
-        image: article.featuredImage,
-        datePublished: "2026-03-01T10:00:00+05:30",
+    // WebSite Schema
+    const websiteSchema: any = {
+      "@type": "WebSite",
+      "@id": `${STORE_CONFIG.canonicalDomain}/#website`,
+      url: STORE_CONFIG.canonicalDomain,
+      name: STORE_CONFIG.storeName,
+      publisher: {
+        "@id": `${STORE_CONFIG.canonicalDomain}/#store`,
+      },
+    };
+    jsonLdGraph.push(websiteSchema);
+
+    // BreadcrumbList Schema
+    if (metadata.breadcrumbs && metadata.breadcrumbs.length > 0) {
+      const breadcrumbSchema: any = {
+        "@type": "BreadcrumbList",
+        itemListElement: metadata.breadcrumbs.map((crumb, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          name: crumb.name,
+          item: crumb.url.startsWith("http")
+            ? crumb.url
+            : `${STORE_CONFIG.canonicalDomain.replace(/\/$/, "")}${crumb.url}`,
+        })),
+      };
+      jsonLdGraph.push(breadcrumbSchema);
+    }
+
+    // BlogPosting Schema
+    if (metadata.article) {
+      const articleSchema: any = {
+        "@type": "BlogPosting",
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": metadata.canonicalUrl,
+        },
+        headline: metadata.article.title,
+        description: metadata.article.metaDescription,
+        image: metadata.article.featuredImage,
+        datePublished: metadata.article.publishedAt,
+        dateModified: metadata.article.updatedAt || metadata.article.publishedAt,
         author: {
           "@type": "Person",
-          name: article.author.name,
-          jobTitle: article.author.role,
+          name: metadata.article.author.name,
+          jobTitle: metadata.article.author.role,
         },
         publisher: {
           "@type": "Organization",
           name: STORE_CONFIG.storeName,
+          url: STORE_CONFIG.canonicalDomain,
           logo: {
             "@type": "ImageObject",
-            url: "https://vanyajewellers.com/logo.png",
+            url: metadata.ogImage,
           },
         },
+        articleSection: metadata.article.category,
+        keywords: metadata.article.keywords.join(", "),
       };
-    } else if (product) {
-      schemaData = {
-        "@context": "https://schema.org",
+      jsonLdGraph.push(articleSchema);
+    }
+
+    // Product Schema
+    if (metadata.product) {
+      const productSchema: any = {
         "@type": "Product",
-        name: product.name,
-        image: product.image,
-        description: product.description,
-        category: product.category,
+        "@id": metadata.canonicalUrl,
+        name: metadata.product.name,
+        image: metadata.product.image,
+        description: metadata.product.description,
+        sku: metadata.product.id,
+        mpn: metadata.product.hallmarkCode,
+        category: metadata.product.category,
+        brand: {
+          "@type": "Brand",
+          name: STORE_CONFIG.storeName,
+        },
         offers: {
           "@type": "Offer",
+          url: metadata.canonicalUrl,
           priceCurrency: "INR",
-          price: product.price,
-          availability: "https://schema.org/InStock",
+          price: metadata.product.price,
+          availability: metadata.product.availability === "In Stock"
+            ? "https://schema.org/InStock"
+            : "https://schema.org/PreOrder",
+          itemCondition: "https://schema.org/NewCondition",
           seller: {
-            "@type": "Organization",
-            name: STORE_CONFIG.storeName,
+            "@id": `${STORE_CONFIG.canonicalDomain}/#store`,
           },
         },
       };
+      jsonLdGraph.push(productSchema);
     }
 
     const script = document.createElement("script");
     script.id = "jsonld-structured-data";
     script.type = "application/ld+json";
-    script.innerHTML = JSON.stringify(schemaData);
+    script.innerHTML = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": jsonLdGraph,
+    });
     document.head.appendChild(script);
 
     return () => {
       const s = document.getElementById("jsonld-structured-data");
       if (s) s.remove();
     };
-  }, [title, description, canonicalUrl, product, article]);
+  }, [metadata]);
 
   return null;
 };

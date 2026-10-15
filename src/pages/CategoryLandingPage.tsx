@@ -110,7 +110,7 @@ export const CategoryLandingPage: React.FC<CategoryLandingPageProps> = ({
   const categoryProducts = PRODUCTS.filter((p) => p.category === category);
 
   const whatsappInquiryUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(
-    `Hello Vanya Concierge, I am interested in exploring your "${meta.title}" collection. Please share available pieces.`
+    `Hello ${STORE_CONFIG.storeName} Concierge, I am interested in exploring your "${meta.title}" collection. Please share available pieces.`
   )}`;
 
   return (

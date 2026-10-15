@@ -10,12 +10,21 @@ export interface BlogArticle {
     role: string;
   };
   date: string;
+  publishedAt: string;
+  updatedAt: string;
   readingTime: string;
   featuredImage: string;
+  featuredImageAlt: string;
   excerpt: string;
   metaTitle: string;
   metaDescription: string;
+  canonicalUrl: string;
   keywords: string[];
+  relatedCollection: {
+    title: string;
+    url: string;
+    anchorText: string;
+  };
   content: {
     introduction: string;
     sections: {
@@ -23,12 +32,18 @@ export interface BlogArticle {
       subheading?: string;
       body: string[];
       bulletPoints?: string[];
+      internalLink?: {
+        text: string;
+        url: string;
+        contextKicker: string;
+      };
     }[];
     conclusion: string;
     storeCTA: {
       headline: string;
       text: string;
       buttonText: string;
+      url: string;
     };
   };
   relatedArticleSlugs: string[];
@@ -45,12 +60,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Senior Jewellery Stylist & Heritage Specialist",
     },
     date: "February 18, 2026",
+    publishedAt: "2026-02-18T09:00:00+05:30",
+    updatedAt: "2026-03-12T14:00:00+05:30",
     readingTime: "7 min read",
     featuredImage: IMAGES.blogs.blog1,
+    featuredImageAlt: "Handcrafted 22K gold necklace set and earrings displayed on luxury cream silk",
     excerpt: "From boardroom elegance to grand Indian weddings, learn how to select the right gold jewellery that harmonizes with your attire, comfort, and cultural significance.",
-    metaTitle: "How to Choose Gold Jewellery for Every Occasion | Vanya Jewellers",
+    metaTitle: "How to Choose Gold Jewellery for Every Occasion | Nilam Jewellers",
     metaDescription: "Master the art of selecting gold jewellery for daily wear, office styling, festive gatherings, and weddings with expert advice on karats, weights, and aesthetics.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/how-to-choose-gold-jewellery-for-every-occasion",
     keywords: ["gold jewellery for occasions", "daily wear gold", "office gold jewellery", "wedding gold selection", "festive jewellery guide", "22k gold styling"],
+    relatedCollection: {
+      title: "22K Gold Jewellery Collection",
+      url: "/collections/gold-jewellery",
+      anchorText: "Explore our Handcrafted 22K Gold Jewellery Collection",
+    },
     content: {
       introduction: "Gold has been the heartbeat of Indian adornment for millennia. However, the art of wearing gold lies not in the sheer abundance of metal, but in purposeful curation. A heavy antique choker suited for a North Indian wedding feels overwhelming in a corporate boardroom, just as a delicate cable chain can be lost amidst the grandeur of a Kanjeevaram silk saree. In this comprehensive guide, we walk you through selecting the ideal gold jewellery for every chapter of your social and professional calendar.",
       sections: [
@@ -65,6 +89,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Choose flat curb or box chains between 16 and 18 inches.",
             "Consider smooth bangle bracelets or slim flexible cuffs with secure concealed clasps.",
           ],
+          internalLink: {
+            contextKicker: "Understanding Gold Alloys:",
+            text: "Read our comprehensive 22K vs 18K Gold Purity Guide",
+            url: "/blog/22k-vs-18k-gold-what-is-the-difference",
+          },
         },
         {
           heading: "2. Corporate & Office Environments: Modern Sophistication",
@@ -76,6 +105,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Brushed or satin-finished 18K yellow or rose gold reduces excessive light reflection in formal meetings.",
             "Modern lightweight mangalsutras with chevron or bar pendants offer cultural sentiment with executive refinement.",
           ],
+          internalLink: {
+            contextKicker: "Explore Everyday Styles:",
+            text: "Browse our Everyday Minimalist Gold Jewellery Designs",
+            url: "/collections/everyday-jewellery",
+          },
         },
         {
           heading: "3. Traditional Festivals & Family Functions: Auspicious Warmth",
@@ -87,6 +121,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Heritage Jhumkas with seed pearl fringes provide festive movement.",
             "Nakashi bangles or filigree kadas worn as single accent pieces on both wrists.",
           ],
+          internalLink: {
+            contextKicker: "Verification Checklist:",
+            text: "Consult our 7 Things to Check Before Buying Gold Jewellery",
+            url: "/blog/7-things-to-check-before-buying-gold-jewellery",
+          },
         },
         {
           heading: "4. Weddings & Grand Receptions: Regal Heirloom Splendour",
@@ -98,6 +137,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Balance heavier necklaces by opting for lightweight hair accessories like delicate mathapattis.",
             "Ensure the yellow hue of your 22K gold harmonizes with your outfit's zari embroidery.",
           ],
+          internalLink: {
+            contextKicker: "Complete Bridal Manual:",
+            text: "Explore our Complete Guide to Indian Bridal Jewellery",
+            url: "/blog/complete-guide-to-indian-bridal-jewellery",
+          },
         },
       ],
       conclusion: "Selecting jewellery is deeply personal. By calibrating the weight, karat purity, and design aesthetic to the occasion, you ensure every piece brings you joy, confidence, and lasting admiration.",
@@ -105,6 +149,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         headline: "Discover Pieces Tailored to Your Milestone",
         text: "Book an exclusive viewing session with our senior styling team at our flagship showroom to curate pieces that fit your wardrobe effortlessly.",
         buttonText: "Schedule Showroom Appointment",
+        url: "/contact",
       },
     },
     relatedArticleSlugs: ["22k-vs-18k-gold-what-is-the-difference", "7-things-to-check-before-buying-gold-jewellery", "complete-guide-to-indian-bridal-jewellery"],
@@ -119,12 +164,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Chief Assayer & Gemological Director",
     },
     date: "February 24, 2026",
+    publishedAt: "2026-02-24T10:00:00+05:30",
+    updatedAt: "2026-03-14T11:00:00+05:30",
     readingTime: "6 min read",
     featuredImage: IMAGES.blogs.blog2,
+    featuredImageAlt: "Side-by-side comparison of 22K yellow gold and 18K gold jewellery bangles",
     excerpt: "Understand gold purity, alloy compositions, colour nuances, scratch resistance, and which karat is truly suited for your daily wear versus heirloom collection.",
-    metaTitle: "22K vs 18K Gold: Differences, Purity, Durability | Vanya Jewellers",
+    metaTitle: "22K vs 18K Gold: Differences, Purity, Durability | Nilam Jewellers",
     metaDescription: "Detailed comparison of 22 Karat (916) and 18 Karat (750) gold. Compare purity percentages, durability, colour tones, and best uses for Indian jewellery.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/22k-vs-18k-gold-what-is-the-difference",
     keywords: ["22k vs 18k gold", "gold purity difference", "916 gold meaning", "750 gold karat", "is 18k gold good for daily wear", "gold alloy composition"],
+    relatedCollection: {
+      title: "22K Gold Jewellery Collection",
+      url: "/collections/gold-jewellery",
+      anchorText: "Browse our 22K BIS 916 Hallmarked Gold Ornaments",
+    },
     content: {
       introduction: "One of the most frequent dilemmas customers face in our showroom is deciding between 22 Karat and 18 Karat gold. Both carry undeniable prestige, yet each serves distinct functional and aesthetic purposes. Purity, scratch resilience, structural firmness for holding gemstones, and color saturation all stem from the elemental proportion of pure gold versus alloyed metals.",
       sections: [
@@ -135,6 +189,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "22K Gold (also known as 916 Gold): Comprises 22 parts pure gold and 2 parts alloy, resulting in 91.67% gold purity. In India, this is the gold standard for traditional wedding jewellery and bullion investments.",
             "18K Gold (also known as 750 Gold): Comprises 18 parts pure gold and 6 parts alloy, resulting in 75.0% pure gold. The remaining 25% alloy creates exceptional tensile strength.",
           ],
+          internalLink: {
+            contextKicker: "Purity Checkpoints:",
+            text: "Read 7 Things to Check Before Buying Gold Jewellery in India",
+            url: "/blog/7-things-to-check-before-buying-gold-jewellery",
+          },
         },
         {
           heading: "2. Color Saturation: Deep Sunshine vs Warm Champagne",
@@ -142,6 +201,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Because 22K gold contains nearly 92% pure gold, it displays a deep, rich yellow tone reminiscent of warm Indian sunshine. This hue is traditional, highly prized in temple jewellery, and flatters vibrant bridal silks.",
             "18K gold exhibits a slightly softer, contemporary champagne-yellow hue. Furthermore, 18K enables the creation of pristine White Gold (alloyed with palladium and rhodium) and romantic Rose Gold (alloyed with copper), which are impossible to produce at 22K purity.",
           ],
+          internalLink: {
+            contextKicker: "Care & Maintenance:",
+            text: "Discover How to Take Care of Your Gold Jewellery",
+            url: "/blog/how-to-take-care-of-your-gold-jewellery",
+          },
         },
         {
           heading: "3. Structural Strength & Gemstone Security",
@@ -149,6 +213,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Gold's firmness is critical when mounting diamonds and precious colored gems. In high-value solitaire rings or micro-pave diamond jewellery, 22K gold is often too pliable, increasing the risk of prongs bending under impact and stones dislodging.",
             "18K gold is significantly harder and more rigid. Its alloy formulation ensures micro-prongs grip diamonds with unyielding strength. This is why international luxury houses and premier diamond jewelers globally mandate 18K or Platinum for solitaire mounts.",
           ],
+          internalLink: {
+            contextKicker: "Diamond Setting Advice:",
+            text: "Read our Diamond Buying Guide for Beginners",
+            url: "/blog/diamond-buying-guide-for-beginners",
+          },
         },
         {
           heading: "4. Quick Decision Matrix: Which Should You Choose?",
@@ -158,11 +227,12 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           ],
         },
       ],
-      conclusion: "Neither karat is objectively superior; each is an engineering marvel designed for different demands. At Vanya Jewellers, all our 22K and 18K gold pieces are BIS hallmarked with laser-engraved HUID codes for unassailable purity verification.",
+      conclusion: "Neither karat is objectively superior; each is an engineering marvel designed for different demands. At Nilam Jewellers, all our 22K and 18K gold pieces are BIS hallmarked with laser-engraved HUID codes for unassailable purity verification.",
       storeCTA: {
         headline: "Experience Both In Person",
         text: "Compare 22K and 18K pieces side-by-side under natural gemological lighting with our certified assay team.",
-        buttonText: "Visit Showroom",
+        buttonText: "Visit Our Showroom",
+        url: "/store-locations",
       },
     },
     relatedArticleSlugs: ["7-things-to-check-before-buying-gold-jewellery", "how-to-choose-gold-jewellery-for-every-occasion", "how-to-choose-the-perfect-engagement-ring"],
@@ -173,16 +243,25 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     title: "7 Things to Check Before Buying Gold Jewellery",
     category: "Buying Guides",
     author: {
-      name: "Vikramaditya Vanya",
+      name: "Vikramaditya Singhal",
       role: "Managing Director & Fourth-Generation Goldsmith",
     },
     date: "March 02, 2026",
+    publishedAt: "2026-03-02T11:00:00+05:30",
+    updatedAt: "2026-03-18T16:00:00+05:30",
     readingTime: "8 min read",
     featuredImage: IMAGES.blogs.blog3,
+    featuredImageAlt: "Goldsmith weighing 22K gold necklace on calibrated legal metrology balance",
     excerpt: "Protect your hard-earned wealth. An essential buyer's checklist covering BIS HUID verification, making charges calculation, gross vs net weight, GST, and transparent buyback guarantees.",
-    metaTitle: "7 Things to Check Before Buying Gold Jewellery | Vanya Jewellers",
+    metaTitle: "7 Things to Check Before Buying Gold Jewellery | Nilam Jewellers",
     metaDescription: "Essential checklist before buying gold in India: BIS hallmark, HUID verification, making charges calculation, net weight, GST invoice, and transparent buyback terms.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/7-things-to-check-before-buying-gold-jewellery",
     keywords: ["things to check before buying gold", "BIS hallmark check", "HUID number verification", "gold making charges formula", "gold buyback policy", "GST on gold jewellery"],
+    relatedCollection: {
+      title: "Gold Jewellery Collection",
+      url: "/collections/gold-jewellery",
+      anchorText: "Explore BIS Hallmarked 22K Gold Ornaments",
+    },
     content: {
       introduction: "Buying gold jewellery in India is both an emotional celebration and a significant financial investment. Yet, many buyers still navigate opaque making charges, confusing weight deductions, and unverified hallmarking claims. To empower you on your next purchase, our family has assembled the seven non-negotiable checks every customer must perform before parting with a single rupee.",
       sections: [
@@ -192,6 +271,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "In India, hallmarking is mandated by law under the Bureau of Indian Standards (BIS). A valid hallmark no longer consists of confusing stamps; it is marked by three clear identifiers: the BIS triangular logo, the karat purity mark (e.g., 22K916 or 18K750), and a unique 6-digit alphanumeric HUID (Hallmark Unique Identification) code.",
             "You can immediately verify the authentic origin and weight of your piece using the government's official 'BIS CARE' smartphone app by simply typing in the 6-digit HUID.",
           ],
+          internalLink: {
+            contextKicker: "Karat Knowledge:",
+            text: "Learn the core differences in our 22K vs 18K Gold Guide",
+            url: "/blog/22k-vs-18k-gold-what-is-the-difference",
+          },
         },
         {
           heading: "2. The Critical Difference Between Gross Weight & Net Weight",
@@ -199,7 +283,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Never pay gold rates on the total (gross) weight of a piece if it contains gemstones, beads, lac, or enamel. The invoice must clearly demarcate:",
             "Gross Weight: The entire weight of the finished item on the certified scale.",
             "Deductions: The exact weight of gemstones, pearls, or enamel.",
-            "Net Weight: The pure gold weight on which the gold bullion rate is applied. Transparent jewelers like Vanya ensure zero resin or lac weight is ever priced at gold bullion value.",
+            "Net Weight: The pure gold weight on which the gold bullion rate is applied. Transparent jewelers like Nilam Jewellers ensure zero resin or lac weight is ever priced at gold bullion value.",
           ],
         },
         {
@@ -208,6 +292,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Making charges reflect the craftsmanship, wastage, and labor of the master Karigar. Depending on whether a piece is machine-cast or hand-crafted Nakashi, making charges typically range between 8% to 24%.",
             "Always ask whether making charges are calculated as a flat fee per gram or as a percentage of the total gold price. Clear, transparent breakdown ensures you are not paying hidden markups.",
           ],
+          internalLink: {
+            contextKicker: "Custom Atelier Pricing:",
+            text: "Explore Custom Bespoke Jewellery Commissions",
+            url: "/custom-jewellery",
+          },
         },
         {
           heading: "4. Prevailing Bullion Market Gold Rate",
@@ -227,6 +316,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           body: [
             "Before purchasing, request the brand's written buyback policy. A trustworthy jeweller guarantees 100% value on net gold weight during gold-to-gold exchange at current market rates, and a defined transparent policy for gemstones and making charge amortizations.",
           ],
+          internalLink: {
+            contextKicker: "Building Wealth:",
+            text: "Read How to Build a Timeless Jewellery Collection",
+            url: "/blog/build-a-timeless-jewellery-collection",
+          },
         },
         {
           heading: "7. Solder Quality & Karat Uniformity",
@@ -238,8 +332,9 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       conclusion: "When buying gold, transparency is the highest luxury. By following these seven principles, you safeguard your family's prosperity for generations to come.",
       storeCTA: {
         headline: "Experience 100% Transparent Hallmarking",
-        text: "Every piece at Vanya Jewellers includes laser-inscribed HUIDs and complete digital caratage certificates.",
+        text: "Every piece at Nilam Jewellers includes laser-inscribed HUIDs and complete digital caratage certificates.",
         buttonText: "Browse Hallmarked Collection",
+        url: "/collections",
       },
     },
     relatedArticleSlugs: ["22k-vs-18k-gold-what-is-the-difference", "how-to-take-care-of-your-gold-jewellery", "how-to-build-a-timeless-jewellery-collection"],
@@ -254,12 +349,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Graduate Gemologist (GIA) & Bridal Concierge",
     },
     date: "March 09, 2026",
+    publishedAt: "2026-03-09T10:00:00+05:30",
+    updatedAt: "2026-03-20T15:00:00+05:30",
     readingTime: "9 min read",
     featuredImage: IMAGES.blogs.blog4,
+    featuredImageAlt: "Round brilliant solitaire diamond engagement ring on champagne satin",
     excerpt: "A comprehensive guide to selecting an engagement ring that captures eternal love. Explore diamond silhouettes, the 4Cs, band metals, lifestyle ergonomics, and setting choices.",
-    metaTitle: "How to Choose the Perfect Engagement Ring | Vanya Jewellers",
+    metaTitle: "How to Choose the Perfect Engagement Ring | Nilam Jewellers",
     metaDescription: "Learn how to select the ideal engagement ring. Expert advice on diamond shapes, 4Cs, ring settings, lifestyle fit, metal options, and budget allocation.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/how-to-choose-the-perfect-engagement-ring",
     keywords: ["engagement ring guide", "how to buy engagement ring", "diamond ring 4Cs", "solitaire ring styles", "prong vs bezel setting", "certified engagement rings"],
+    relatedCollection: {
+      title: "Certified Diamond Jewellery",
+      url: "/collections/diamond-jewellery",
+      anchorText: "Discover Certified Solitaire Diamond Rings",
+    },
     content: {
       introduction: "An engagement ring is more than a jewel; it is the physical emblem of a promise to journey through life together. Selecting one can initially feel daunting given the multitude of cuts, carat sizes, metal tones, and technical gemological gradings. Here is your roadmap to finding a ring that reflects your partner's individuality and endures a lifetime.",
       sections: [
@@ -272,6 +376,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Emerald Cut: Featuring parallel step facets and clean hall-of-mirrors reflections, this cut exudes vintage art deco sophistication.",
             "Pear & Marquise Cuts: Dramatic, distinctive shapes that combine round brilliance with tapered points.",
           ],
+          internalLink: {
+            contextKicker: "Diamond 4Cs Fundamentals:",
+            text: "Read our Diamond Buying Guide for Beginners",
+            url: "/blog/diamond-buying-guide-for-beginners",
+          },
         },
         {
           heading: "2. The 4Cs Demystified for Real-World Budgets",
@@ -281,6 +390,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Clarity: Choose an 'Eye-Clean' diamond (VS1–VS2). Minute inclusions visible only under 10x gemological magnification do not impact visible sparkle.",
             "Carat: Consider buying just below milestone thresholds (e.g., 0.95ct instead of 1.00ct, or 1.42ct instead of 1.50ct) to enjoy virtually identical visual dimensions at substantial savings.",
           ],
+          internalLink: {
+            contextKicker: "Bespoke Ring Setting:",
+            text: "Enquire About Custom Ring Design at Our Atelier",
+            url: "/custom-jewellery",
+          },
         },
         {
           heading: "3. Ring Setting & Structural Security",
@@ -295,6 +409,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           body: [
             "Match the band metal to the jewellery your partner regularly wears. Warm skin undertones look stunning against 18K champagne yellow gold, while cool undertones harmonize with Platinum or 18K white gold.",
           ],
+          internalLink: {
+            contextKicker: "Trending Styles in 2026:",
+            text: "Explore Current Jewellery Trends to Watch in 2026",
+            url: "/blog/jewellery-trends-to-watch-in-2026",
+          },
         },
       ],
       conclusion: "The best engagement ring is not determined by price tags or carat weight alone, but by the love and mindfulness poured into choosing it.",
@@ -302,6 +421,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         headline: "Begin Your Solitaire Journey",
         text: "Consult with our GIA-certified gemologists in our private diamond viewing salon. We source rare certified diamonds curated to your exact vision.",
         buttonText: "Book Private Solitaire Consultation",
+        url: "/contact",
       },
     },
     relatedArticleSlugs: ["diamond-buying-guide-for-beginners", "22k-vs-18k-gold-what-is-the-difference", "jewellery-trends-to-watch-in-2026"],
@@ -316,12 +436,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Head of Bridal Bespoke & Couture Ornaments",
     },
     date: "March 15, 2026",
+    publishedAt: "2026-03-15T09:30:00+05:30",
+    updatedAt: "2026-03-25T17:00:00+05:30",
     readingTime: "11 min read",
     featuredImage: IMAGES.blogs.blog5,
+    featuredImageAlt: "Indian bride wearing traditional gold choker, maang tikka, and rani haar",
     excerpt: "From the sacred Maang Tikka and Nath to layered Rani Haars, Chokers, and Haathphool — an architectural guide to curating an authentic royal bridal trousseau.",
-    metaTitle: "Complete Guide to Indian Bridal Jewellery | Vanya Jewellers",
+    metaTitle: "Complete Guide to Indian Bridal Jewellery | Nilam Jewellers",
     metaDescription: "The ultimate guide to Indian bridal jewellery: explore chokers, rani haars, maang tikkas, naths, bangles, and kamarbandhs for your wedding trousseau.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/complete-guide-to-indian-bridal-jewellery",
     keywords: ["Indian bridal jewellery guide", "bridal necklace types", "maang tikka selection", "Indian wedding jewellery trousseau", "bridal choker and rani haar", "polki vs gold bridal sets"],
+    relatedCollection: {
+      title: "Royal Bridal Trousseau",
+      url: "/collections/bridal-jewellery",
+      anchorText: "Discover Royal Indian Bridal Jewellery Sets",
+    },
     content: {
       introduction: "For an Indian bride, bridal jewellery is far more than adornment; it is an armour of auspicious blessings, ancestral heritage, and personal identity. From the crowning maang tikka to the jingling anklets, every piece carries symbolic spiritual power rooted in Vedic culture. In this comprehensive bridal manual, we walk through every quintessential ornament of the Solah Shringar.",
       sections: [
@@ -333,6 +462,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "The Rani Haar: A long royal necklace extending 24 to 30 inches that drapes down to the waist. The Rani Haar adds regal grandeur and lengthens the bridal silhouette.",
             "The Rajputana Aad: A wide crescent-shaped bib necklace originating from Rajasthan, tied with opulent silk dori cords.",
           ],
+          internalLink: {
+            contextKicker: "Styling by Ceremony:",
+            text: "Read How to Choose Gold Jewellery for Every Occasion",
+            url: "/blog/how-to-choose-gold-jewellery-for-every-occasion",
+          },
         },
         {
           heading: "2. The Crowning Adornments: Maang Tikka & Matha Patti",
@@ -349,6 +483,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Nath (Bridal Nose Ring): Revered as the prime symbol of marriage in Hindu traditions. Choose between a delicate circular ring with pearl bead accents or an ornate Rajasthani Nath linked to the hair by a slender gold chain.",
             "Earrings: Bridal earrings must bridge the aesthetic gap between the maang tikka and the choker. Multi-tiered Chandbalis or dome Jhumkas with ear-supporting Kan-phool chains ensure substantial designs remain comfortable during marathon rituals.",
           ],
+          internalLink: {
+            contextKicker: "Care for Antique Pieces:",
+            text: "Learn How to Care for Heirloom Gold Jewellery",
+            url: "/blog/how-to-take-care-of-your-gold-jewellery",
+          },
         },
         {
           heading: "4. Wrist & Hands: Haathphool, Bangles & Chooda",
@@ -356,6 +495,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Bangles represent continuous marital bliss. A traditional bridal wrist ensemble blends solid 22K gold kadas with colorful glass bangles or auspicious red ivory/lac choodas.",
             "Haathphool (Hand Harness): Connects the finger rings to the wrist cuff with delicate gold or pearl swags, illuminating mehendi patterns during wedding photography.",
           ],
+          internalLink: {
+            contextKicker: "Explore Bridal Bangles:",
+            text: "Browse our 22K Solid Gold Bangles & Kadas",
+            url: "/collections/gold-jewellery",
+          },
         },
         {
           heading: "5. Waist & Feet: Kamarbandh & Payal",
@@ -370,6 +514,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         headline: "Begin Your Bridal Curation",
         text: "Step into our Private Bridal Suite with your family. Try on signature heirlooms with your bridal lehenga swatches under warm salon lighting.",
         buttonText: "Reserve Private Bridal Suite",
+        url: "/contact",
       },
     },
     relatedArticleSlugs: ["how-to-choose-gold-jewellery-for-every-occasion", "22k-vs-18k-gold-what-is-the-difference", "how-to-take-care-of-your-gold-jewellery"],
@@ -384,12 +529,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Head Restorer & Workshop Master",
     },
     date: "March 20, 2026",
+    publishedAt: "2026-03-20T10:00:00+05:30",
+    updatedAt: "2026-04-01T14:00:00+05:30",
     readingTime: "6 min read",
     featuredImage: IMAGES.blogs.blog6,
+    featuredImageAlt: "Jeweller cleaning gold ornament at precision workbench with soft tools",
     excerpt: "Preserve the radiant brilliance of your gold ornaments. Practical guidelines on cleaning, safe chemical-free storage, handling perfumes, and annual workshop inspection.",
-    metaTitle: "How to Take Care of Your Gold Jewellery | Vanya Jewellers",
+    metaTitle: "How to Take Care of Your Gold Jewellery | Nilam Jewellers",
     metaDescription: "Step-by-step gold jewellery maintenance: how to clean gold at home safely, prevent scratches, avoid perfume damage, and store heirlooms correctly.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/how-to-take-care-of-your-gold-jewellery",
     keywords: ["how to clean gold jewellery", "gold jewellery care guide", "storing gold jewellery", "removing tarnish from gold", "can perfume ruin gold", "safe gold cleaning solution"],
+    relatedCollection: {
+      title: "Gold Jewellery Collection",
+      url: "/collections/gold-jewellery",
+      anchorText: "Explore our 22K Solid Gold Collections",
+    },
     content: {
       introduction: "Gold is naturally impervious to rust and corrosion, but the daily oils, cosmetic residues, sweat, and environmental pollutants it encounters can dull its mirror-like shine over time. Furthermore, softer 22K gold can develop fine surface abrasions if stored haphazardly. With simple, disciplined maintenance rituals, your precious ornaments can retain their pristine showroom radiance across decades.",
       sections: [
@@ -403,6 +557,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Step 4: Rinse thoroughly under running lukewarm water (always ensure the sink drain is closed!).",
             "Step 5: Pat dry with a lint-free 100% cotton or microfibre cloth.",
           ],
+          internalLink: {
+            contextKicker: "Purity Check:",
+            text: "Read 7 Things to Check Before Buying Gold Jewellery",
+            url: "/blog/7-things-to-check-before-buying-gold-jewellery",
+          },
         },
         {
           heading: "2. The Golden Rule of Cosmetics: 'Last On, First Off'",
@@ -418,6 +577,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Store each piece in individual velvet or suede pouches, or in compartmentalized jewellery boxes lined with anti-tarnish fabric.",
             "Never store pearls or emeralds in airtight plastic bags; organic gems need breathable environments to maintain moisture levels.",
           ],
+          internalLink: {
+            contextKicker: "Capsule Curation:",
+            text: "Read How to Build a Timeless Jewellery Collection",
+            url: "/blog/build-a-timeless-jewellery-collection",
+          },
         },
         {
           heading: "4. Protecting Jewellery During Travel",
@@ -426,11 +590,12 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           ],
         },
       ],
-      conclusion: "Caring for your jewellery is a gesture of love toward the memories each piece commemorates. Bring your Vanya jewellery to any of our showrooms annually for complimentary sonic cleaning and prong inspection.",
+      conclusion: "Caring for your jewellery is a gesture of love toward the memories each piece commemorates. Bring your Nilam Jewellers jewellery to any of our showrooms annually for complimentary sonic cleaning and prong inspection.",
       storeCTA: {
         headline: "Complimentary Lifetime Care",
-        text: "Visit our service lounge for ultrasonic steam cleaning, inspection, and polish renewal on any Vanya creation.",
+        text: "Visit our service lounge for ultrasonic steam cleaning, inspection, and polish renewal on any Nilam Jewellers creation.",
         buttonText: "Find Nearest Showroom",
+        url: "/store-locations",
       },
     },
     relatedArticleSlugs: ["7-things-to-check-before-buying-gold-jewellery", "how-to-build-a-timeless-jewellery-collection", "22k-vs-18k-gold-what-is-the-difference"],
@@ -445,12 +610,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Graduate Gemologist (GIA)",
     },
     date: "March 26, 2026",
+    publishedAt: "2026-03-26T10:00:00+05:30",
+    updatedAt: "2026-04-03T11:00:00+05:30",
     readingTime: "10 min read",
     featuredImage: IMAGES.blogs.blog7,
+    featuredImageAlt: "Diamond macro photography showing facets, fire, and brilliant scintillation",
     excerpt: "Navigate the world of diamonds with confidence. An exhaustive beginner's breakdown of the 4Cs, international certifications (GIA vs IGI), and setting considerations.",
-    metaTitle: "Diamond Buying Guide for Beginners | 4Cs & Certification | Vanya",
+    metaTitle: "Diamond Buying Guide for Beginners | 4Cs & Certification | Nilam",
     metaDescription: "Master diamond buying with our comprehensive guide to the 4Cs (Cut, Color, Clarity, Carat), GIA/IGI laboratory certificates, and insider value tips.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/diamond-buying-guide-for-beginners",
     keywords: ["diamond buying guide", "4Cs of diamond explained", "GIA diamond certification", "IGI certificate meaning", "how to choose diamond cut", "best diamond clarity for budget"],
+    relatedCollection: {
+      title: "Certified Diamond Jewellery",
+      url: "/collections/diamond-jewellery",
+      anchorText: "Browse Certified Natural Diamond Solitaires",
+    },
     content: {
       introduction: "Few purchases combine emotion and value quite like a diamond. Yet the technical terminology of gemology can make shopping feel intimidating. This beginner's guide simplifies the essential factors of diamond grading so you can invest with absolute clarity and confidence.",
       sections: [
@@ -460,6 +634,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Cut refers not to the shape of the diamond, but to how expertly its facets interact with light. A masterfully cut diamond channels incoming rays through its facets and reflects them back through the crown as brilliant white light (brilliance) and rainbow flashes (fire).",
             "Grades range from Excellent to Poor. We strongly advise selecting only diamonds graded 'Excellent' or 'Ideal', as even a diamond of flawless clarity will appear lifeless if cut too shallow or too deep.",
           ],
+          internalLink: {
+            contextKicker: "Ring Selection:",
+            text: "Read How to Choose the Perfect Engagement Ring",
+            url: "/blog/how-to-choose-the-perfect-engagement-ring",
+          },
         },
         {
           heading: "2. The Second C: Color (The Absence of Tint)",
@@ -475,6 +654,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Clarity assesses the presence of microscopic internal inclusions and external blemishes, graded under 10x magnification from Flawless (FL) to Included (I1-I3).",
             "In real life, diamonds in the VVS1 to VS2 grades are completely 'Eye-Clean'—meaning their internal crystals cannot be detected by the naked human eye.",
           ],
+          internalLink: {
+            contextKicker: "Gold Mount Purity:",
+            text: "Understand 18K Gold Settings in 22K vs 18K Gold Guide",
+            url: "/blog/22k-vs-18k-gold-what-is-the-difference",
+          },
         },
         {
           heading: "4. The Fourth C: Carat Weight",
@@ -488,6 +672,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Never purchase an uncertified diamond. Reputable diamonds must be accompanied by an independent grading certificate from recognized laboratories such as the Gemological Institute of America (GIA) or International Gemological Institute (IGI).",
             "Ensure the diamond's unique microscopic laser inscription number on its girdle matches the certificate exactly.",
           ],
+          internalLink: {
+            contextKicker: "Explore Tennis Bracelets:",
+            text: "View our Certified Diamond Tennis Bracelets",
+            url: "/collections/diamond-jewellery",
+          },
         },
       ],
       conclusion: "A diamond should ignite wonder every time it catches the light. By prioritizing Cut first, followed by Eye-Clean clarity and pleasing color, you achieve maximum visual brilliance.",
@@ -495,6 +684,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         headline: "Inspect Certified Solitaires Under Microscope",
         text: "Examine hearts-and-arrows symmetry and fire in our state-of-the-art diamond grading lab.",
         buttonText: "Schedule Diamond Consultation",
+        url: "/contact",
       },
     },
     relatedArticleSlugs: ["how-to-choose-the-perfect-engagement-ring", "jewellery-trends-to-watch-in-2026", "22k-vs-18k-gold-what-is-the-difference"],
@@ -509,12 +699,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Senior Jewellery Stylist",
     },
     date: "April 02, 2026",
+    publishedAt: "2026-04-02T10:00:00+05:30",
+    updatedAt: "2026-04-10T12:00:00+05:30",
     readingTime: "7 min read",
     featuredImage: IMAGES.blogs.blog8,
+    featuredImageAlt: "Modern Indian woman wearing layered fine gold chains and statement diamond studs",
     excerpt: "Explore the prevailing design currents defining 2026: quiet luxury gold, modular bridal transformations, gender-neutral men's adornments, and architectural cuts.",
-    metaTitle: "Jewellery Trends to Watch in 2026 | Vanya Jewellers",
+    metaTitle: "Jewellery Trends to Watch in 2026 | Nilam Jewellers",
     metaDescription: "Discover refined jewellery movements in 2026: everyday 18K gold chains, convertible bridal sets, statement solitaire silhouettes, and modern men's jewellery.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/jewellery-trends-to-watch-in-2026",
     keywords: ["jewellery trends 2026", "gold trends 2026", "modern bridal jewellery", "convertible bridal necklaces", "men's gold jewellery trends", "minimal gold jewellery"],
+    relatedCollection: {
+      title: "Everyday Jewellery Collection",
+      url: "/collections/everyday-jewellery",
+      anchorText: "Discover Everyday Lightweight Gold Trends",
+    },
     content: {
       introduction: "The jewellery landscape in 2026 reflects a thoughtful balance between cultural heritage and modern sensibility. Today's patrons seek versatile heirlooms that transition effortlessly between black-tie galas, traditional weddings, and modern daily life. Here are the core movements shaping design benches this season.",
       sections: [
@@ -524,6 +723,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Gone are the days when fine jewellery was locked away in safe vaults for months on end. Modern patrons celebrate everyday wearability with featherlight chains, flush signet rings, and ergonomic cuff bangles in satin-finish 18K gold.",
             "Pieces celebrate subtle tactile pleasures: brushed surfaces, beveled links, and whisper-thin diamond bezels that feel like an extension of one's body.",
           ],
+          internalLink: {
+            contextKicker: "Occasion Styling:",
+            text: "Read How to Choose Gold Jewellery for Every Occasion",
+            url: "/blog/how-to-choose-gold-jewellery-for-every-occasion",
+          },
         },
         {
           heading: "2. Modular & Convertible Bridal Jewellery",
@@ -531,6 +735,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Today's brides are intentional about utility. The demand for modular jewellery—pieces that can be separated and reconfigured after the wedding—has reached unprecedented heights.",
             "Grand bridal chokers now feature detachable lower rani drops, transforming into sleek standalone cocktail chokers for subsequent celebrations. Similarly, statement chandelier earrings feature detachable drops that convert into daily studs.",
           ],
+          internalLink: {
+            contextKicker: "Bridal Architecture:",
+            text: "Consult our Complete Guide to Indian Bridal Jewellery",
+            url: "/blog/complete-guide-to-indian-bridal-jewellery",
+          },
         },
         {
           heading: "3. The Renaissance of Men's Fine Jewellery",
@@ -538,6 +747,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Men's adornment is experiencing its most vibrant renaissance in generations. Beyond simple wedding bands and watches, discerning gentlemen are embracing substantial solid 22K cylindrical kadas, hand-beveled Cuban curb chains, and understated signet rings with flush-set baguette diamonds.",
             "The aesthetic focuses on clean architectural lines, solid metal weight, and tactile textures that complement both tailored suits and ceremonial sherwanis.",
           ],
+          internalLink: {
+            contextKicker: "Men's Collection:",
+            text: "Browse our Solid 22K Men's Kadas and Chains",
+            url: "/collections/mens-jewellery",
+          },
         },
         {
           heading: "4. Colored Gemstones Intertwined with Uncut Diamonds",
@@ -551,6 +765,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         headline: "Explore Our 2026 New Arrivals",
         text: "Discover contemporary interpretations of traditional Indian artistry in our latest curated showcases.",
         buttonText: "Explore New Arrivals",
+        url: "/collections",
       },
     },
     relatedArticleSlugs: ["how-to-choose-gold-jewellery-for-every-occasion", "how-to-build-a-timeless-jewellery-collection", "complete-guide-to-indian-bridal-jewellery"],
@@ -561,16 +776,25 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     title: "Gold Jewellery as a Gift: What Should You Buy?",
     category: "Gifting",
     author: {
-      name: "Vikramaditya Vanya",
+      name: "Vikramaditya Singhal",
       role: "Managing Director",
     },
     date: "April 11, 2026",
+    publishedAt: "2026-04-11T10:00:00+05:30",
+    updatedAt: "2026-04-14T15:00:00+05:30",
     readingTime: "8 min read",
     featuredImage: IMAGES.blogs.blog9,
+    featuredImageAlt: "Luxury gold jewellery gift box tied with silk ribbon and greeting card",
     excerpt: "A practical guide to gifting gold jewellery across life milestones. Find thoughtful, size-flexible recommendations for birthdays, anniversaries, new arrivals, and festive celebrations.",
-    metaTitle: "Gold Jewellery as a Gift: What Should You Buy? | Vanya Jewellers",
+    metaTitle: "Gold Jewellery as a Gift: What Should You Buy? | Nilam Jewellers",
     metaDescription: "Practical guide to gifting gold jewellery: best gift ideas for birthdays, weddings, anniversaries, baby showers, parents, and partners with sizing advice.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/gold-jewellery-as-a-gift-what-should-you-buy",
     keywords: ["gold jewellery gift guide", "gifting gold in India", "anniversary gold jewellery gift", "gold gift for wife", "gold gift for parents", "auspicious gold gifting"],
+    relatedCollection: {
+      title: "Everyday Jewellery Collection",
+      url: "/collections/everyday-jewellery",
+      anchorText: "Explore Fine Gold Jewellery Gift Ideas",
+    },
     content: {
       introduction: "In Indian tradition, presenting someone with gold (Shagun) is the highest gesture of auspicious goodwill and lasting blessings. Unlike conventional gifts that depreciate with time, gold jewellery carries emotional memory while preserving tangible wealth. However, gifting jewellery comes with practical hurdles: finger sizing, personal aesthetic preferences, and budget considerations.",
       sections: [
@@ -581,6 +805,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Solitaire Pendants: Sizing-independent and universally flattering, a certified solitaire diamond pendant suspended on an 18K gold chain is a gift of guaranteed delight.",
             "Diamond Tennis Bracelets: Sits gracefully against any wrist and transitions seamlessly between daytime meetings and evening celebrations.",
           ],
+          internalLink: {
+            contextKicker: "Solitaire Buying:",
+            text: "Read our Diamond Buying Guide for Beginners",
+            url: "/blog/diamond-buying-guide-for-beginners",
+          },
         },
         {
           heading: "2. For Birthdays & Romantic Milestones: Delicate Pendants & Earrings",
@@ -589,6 +818,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Initial / Monogram Pendants: Adds a personal, intimate touch in polished 18K yellow or rose gold.",
             "Eternity Hoops or Studs: Practical everyday luxury that she can enjoy every morning.",
           ],
+          internalLink: {
+            contextKicker: "Wardrobe Essentials:",
+            text: "Read How to Build a Timeless Jewellery Collection",
+            url: "/blog/build-a-timeless-jewellery-collection",
+          },
         },
         {
           heading: "3. For Parents: Auspicious Heritage Pieces",
@@ -596,6 +830,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "For Mothers: A classic 22K gold Kasu Mala, a pair of lightweight Nakashi bangles, or antique temple jhumkas honor her matriarchal presence.",
             "For Fathers: A substantial 22K curb link gold chain or an engraved solid gold kada makes an unforgettable tribute of respect.",
           ],
+          internalLink: {
+            contextKicker: "Men's Gifting:",
+            text: "Browse our Solid 22K Men's Jewellery Collection",
+            url: "/collections/mens-jewellery",
+          },
         },
         {
           heading: "4. For Newborns & Naming Ceremonies (Namkaran)",
@@ -609,6 +848,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           body: [
             "Embossed 24K pure gold coins featuring Goddess Lakshmi or Lord Ganesha, or lightweight gold pendants, offer blessed prosperity and investment value.",
           ],
+          internalLink: {
+            contextKicker: "Purity Assurance:",
+            text: "Review 7 Things to Check Before Buying Gold Jewellery",
+            url: "/blog/7-things-to-check-before-buying-gold-jewellery",
+          },
         },
       ],
       conclusion: "When gifting gold, accompany the piece with its original hallmarking certificate and gift presentation box to create an unforgettable unveiling experience.",
@@ -616,13 +860,14 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         headline: "Find the Perfect Gift with Our Concierge",
         text: "Our gifting specialists assist you with milestone curation, complimentary luxury gift wrapping, and personalized calligraphy cards.",
         buttonText: "Consult Gifting Specialist",
+        url: "/contact",
       },
     },
     relatedArticleSlugs: ["how-to-choose-gold-jewellery-for-every-occasion", "7-things-to-check-before-buying-gold-jewellery", "how-to-build-a-timeless-jewellery-collection"],
   },
   {
     id: "blog-010",
-    slug: "how-to-build-a-timeless-jewellery-collection",
+    slug: "build-a-timeless-jewellery-collection",
     title: "How to Build a Timeless Jewellery Collection",
     category: "Buying Guides",
     author: {
@@ -630,12 +875,21 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       role: "Head of Bridal Bespoke",
     },
     date: "April 18, 2026",
+    publishedAt: "2026-04-18T10:00:00+05:30",
+    updatedAt: "2026-04-20T14:00:00+05:30",
     readingTime: "9 min read",
     featuredImage: IMAGES.blogs.blog10,
+    featuredImageAlt: "Curated heirloom jewellery capsule collection with gold bangles and diamond rings",
     excerpt: "The 8-step foundational roadmap for building an enduring heirloom jewellery wardrobe over time, from daily essential studs to monumental royal bridal statements.",
-    metaTitle: "How to Build a Timeless Jewellery Collection | Vanya Jewellers",
+    metaTitle: "How to Build a Timeless Jewellery Collection | Nilam Jewellers",
     metaDescription: "Step-by-step roadmap to building an heirloom jewellery collection. The 8 essential fine jewellery pieces every woman should gradually acquire.",
+    canonicalUrl: "https://www.nilamjewellers.com/blog/build-a-timeless-jewellery-collection",
     keywords: ["build timeless jewellery collection", "jewellery capsule wardrobe", "essential gold jewellery pieces", "heirloom jewellery guide", "how to start fine jewellery collection"],
+    relatedCollection: {
+      title: "All Jewellery Collections",
+      url: "/collections",
+      anchorText: "Explore our Complete Fine Jewellery Catalogue",
+    },
     content: {
       introduction: "A truly magnificent jewellery collection is rarely assembled in a single afternoon. The most revered collections are built patiently over years, marking life's promotions, weddings, anniversaries, and personal victories. Building a timeless collection requires strategy: curating versatile foundational essentials before advancing to grand statement heirlooms.",
       sections: [
@@ -645,6 +899,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Step 1: The Everyday Diamond Studs or Gold Huggies: The anchor of any wardrobe. A pair of well-cut diamond studs (between 0.50ct to 1.0ct total weight) or satin-finish 18K gold huggie hoops provide effortless elegance 365 days a year.",
             "Step 2: The Versatile Gold Chain: A 16-18 inch adjustable gold chain in curb, cable, or wheat link. This can be worn solo with crisp shirts or paired with interchangeable pendants for evenings.",
           ],
+          internalLink: {
+            contextKicker: "Daily Wear Guide:",
+            text: "Read How to Choose Gold Jewellery for Every Occasion",
+            url: "/blog/how-to-choose-gold-jewellery-for-every-occasion",
+          },
         },
         {
           heading: "Phase 2: Tactile Wrist & Hand Essentials (Steps 3 & 4)",
@@ -652,6 +911,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Step 3: The Signature Ring: Whether a diamond band, a signet ring, or a flush solitaire, a signature ring becomes part of your visual identity.",
             "Step 4: The Solid Bangle or Tennis Bracelet: A pair of 22K solid gold kadas or an 18K diamond tennis bracelet completes the wrist with quiet sophistication.",
           ],
+          internalLink: {
+            contextKicker: "Understanding Gold Purity:",
+            text: "Learn why karat choice matters in 22K vs 18K Gold Guide",
+            url: "/blog/22k-vs-18k-gold-what-is-the-difference",
+          },
         },
         {
           heading: "Phase 3: The Festive & Cultural Accents (Steps 5 & 6)",
@@ -659,6 +923,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Step 5: The Heritage Jhumkas: Essential for Indian celebrations. Handcrafted dome jhumkas in 22K antique gold provide immediate festive gravitas to simple silk kurtas.",
             "Step 6: The Statement Collar or Choker: A beautifully crafted choker that sits gracefully at the collarbones, ready for family weddings and festive evenings.",
           ],
+          internalLink: {
+            contextKicker: "Bridal & Festive Curation:",
+            text: "Explore our Complete Guide to Indian Bridal Jewellery",
+            url: "/blog/complete-guide-to-indian-bridal-jewellery",
+          },
         },
         {
           heading: "Phase 4: The Monumental Heirlooms (Steps 7 & 8)",
@@ -666,6 +935,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
             "Step 7: The Royal Rani Haar or Polki Set: An intricate masterpiece representing the pinnacle of Indian goldsmithing, destined to be passed down to your children and grandchildren.",
             "Step 8: Bespoke Heirlooms: Custom-designed creations incorporating family gemstones, astrological birthstones, or historic emblems crafted in collaboration with master karigars.",
           ],
+          internalLink: {
+            contextKicker: "Bespoke Commissions:",
+            text: "Commission a One-of-a-Kind Piece at Our Custom Atelier",
+            url: "/custom-jewellery",
+          },
         },
       ],
       conclusion: "View every acquisition not as an expense, but as an enduring store of wealth, beauty, and emotional memory that outlives transient fashion cycles.",
@@ -673,6 +947,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         headline: "Start Building Your Heirloom Portfolio",
         text: "Let our private heritage advisors help you plan your phased jewellery acquisitions with guaranteed buyback and upgrade options.",
         buttonText: "Speak with Heritage Advisor",
+        url: "/contact",
       },
     },
     relatedArticleSlugs: ["how-to-choose-gold-jewellery-for-every-occasion", "7-things-to-check-before-buying-gold-jewellery", "complete-guide-to-indian-bridal-jewellery"],

@@ -2,11 +2,12 @@ import React from "react";
 import { Product } from "../data/products";
 import { STORE_CONFIG } from "../data/storeConfig";
 import { ImageWithFallback } from "./ImageWithFallback";
+import { Link } from "./Link";
 import { Heart, MessageCircle, ArrowRight } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
-  onSelect: (product: Product) => void;
+  onSelect?: (product: Product) => void;
   isWishlisted: boolean;
   onToggleWishlist: (product: Product) => void;
 }
@@ -17,20 +18,29 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isWishlisted,
   onToggleWishlist,
 }) => {
+  const productUrl = `/products/${product.slug}`;
   const whatsappUrl = `https://wa.me/${STORE_CONFIG.whatsappNumber}?text=${encodeURIComponent(
-    `Hello, I am interested in inquiring about "${product.name}" (${product.purity}, ${product.grossWeight}, Price: ${product.priceDisplay}). Please share more details.`
+    `Hello ${STORE_CONFIG.storeName}, I am interested in inquiring about "${product.name}" (${product.purity}, ${product.grossWeight}, Price: ${product.priceDisplay}). Please share more details.`
   )}`;
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (onSelect) {
+      onSelect(product);
+    }
+  };
+
   return (
-    <div className="group flex flex-col bg-white border border-[#E8E2D8] hover:border-[#AA8B56]/50 transition-all duration-300 hover:shadow-lg">
-      {/* Product Image Area */}
-      <div className="relative aspect-[4/5] bg-[#FAF8F5] overflow-hidden cursor-pointer" onClick={() => onSelect(product)}>
-        <ImageWithFallback
-          src={product.image}
-          alt={product.name}
-          aspectRatio="aspect-[4/5]"
-          className="group-hover:scale-105 transition-transform duration-500"
-        />
+    <article className="group flex flex-col bg-white border border-[#E8E2D8] hover:border-[#AA8B56]/50 transition-all duration-300 hover:shadow-lg">
+      {/* Product Image Area with Crawlable Anchor */}
+      <div className="relative aspect-[4/5] bg-[#FAF8F5] overflow-hidden">
+        <Link to={productUrl} className="block w-full h-full" title={`View ${product.name}`}>
+          <ImageWithFallback
+            src={product.image}
+            alt={`${product.name} - ${product.purity} ${product.category}`}
+            aspectRatio="aspect-[4/5]"
+            className="group-hover:scale-105 transition-transform duration-500 w-full h-full object-cover"
+          />
+        </Link>
 
         {/* Wishlist Button */}
         <button
@@ -43,7 +53,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               ? "bg-[#1E1B18] text-[#AA8B56]"
               : "bg-white/80 text-[#45403A] hover:bg-white hover:text-[#1E1B18]"
           }`}
-          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          aria-label={isWishlisted ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
           title={isWishlisted ? "In Wishlist" : "Save to Wishlist"}
         >
           <Heart className={`w-4 h-4 ${isWishlisted ? "fill-current" : ""}`} />
@@ -73,12 +83,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </div>
 
-          {/* Product Name */}
-          <h3 
-            onClick={() => onSelect(product)}
-            className="font-serif text-lg text-[#1E1B18] group-hover:text-[#8F7040] transition-colors line-clamp-1 cursor-pointer font-medium"
-          >
-            {product.name}
+          {/* Product Name as Crawlable Heading Link */}
+          <h3 className="font-serif text-lg text-[#1E1B18] group-hover:text-[#8F7040] transition-colors line-clamp-1 font-medium">
+            <Link to={productUrl} title={product.name}>
+              {product.name}
+            </Link>
           </h3>
 
           {/* Short Description */}
@@ -102,25 +111,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
               className="p-2 border border-[#E8E2D8] hover:border-[#25D366] hover:text-[#25D366] text-[#666057] transition-colors"
-              title="Enquire on WhatsApp"
+              title={`Enquire about ${product.name} on WhatsApp`}
               aria-label={`Enquire about ${product.name} on WhatsApp`}
             >
               <MessageCircle className="w-4 h-4" />
             </a>
 
-            {/* View Details Button */}
-            <button
-              onClick={() => onSelect(product)}
-              className="px-3.5 py-1.5 text-xs uppercase tracking-wider font-semibold text-white bg-[#1E1B18] hover:bg-[#8F7040] transition-colors flex items-center gap-1 cursor-pointer"
+            {/* View Details Link with Descriptive Anchor */}
+            <Link
+              to={productUrl}
+              className="px-3.5 py-1.5 text-xs uppercase tracking-wider font-semibold text-white bg-[#1E1B18] hover:bg-[#8F7040] transition-colors flex items-center gap-1"
+              title={`View complete specifications for ${product.name}`}
             >
-              <span>Details</span>
+              <span>View Piece</span>
               <ArrowRight className="w-3 h-3" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 };

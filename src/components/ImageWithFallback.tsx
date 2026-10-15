@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { STORE_CONFIG } from "../data/storeConfig";
 
 interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -25,10 +26,10 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
         aria-label={alt}
       >
         <div className="w-12 h-12 rounded-full border border-[#C2A77A]/40 flex items-center justify-center mb-2 bg-[#FAF8F5]/80">
-          <span className="font-serif text-lg tracking-widest text-[#AA8B56]">VJ</span>
+          <span className="font-serif text-lg tracking-widest text-[#AA8B56]">NJ</span>
         </div>
         <span className="font-serif text-xs text-[#8F7040] tracking-wider uppercase">
-          Vanya Jewellers
+          {STORE_CONFIG.storeName}
         </span>
         <span className="text-[11px] text-[#8E877D] mt-1 line-clamp-1 max-w-[200px]">
           {alt}
@@ -41,7 +42,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
     <div className={`relative overflow-hidden bg-[#F5EEDF]/40 ${className}`}>
       {isLoading && (
         <div className="absolute inset-0 bg-[#F4EFE6] animate-pulse flex items-center justify-center">
-          <span className="font-serif text-xs tracking-widest text-[#AA8B56]/60">VANYA</span>
+          <span className="font-serif text-xs tracking-widest text-[#AA8B56]/60 font-medium">NJ</span>
         </div>
       )}
       <img

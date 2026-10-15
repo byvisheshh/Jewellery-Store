@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { BLOG_ARTICLES, BlogArticle } from "../data/blogs";
 import { ImageWithFallback } from "../components/ImageWithFallback";
+import { Link } from "../components/Link";
 import { Search, ArrowRight, BookOpen, Clock, Calendar } from "lucide-react";
 
 interface BlogListingPageProps {
@@ -60,17 +61,18 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({
 
       {/* Hero Featured Article (Magazine Lead) */}
       {!searchQuery && selectedCategory === "All" && (
-        <div
-          onClick={() => onSelectArticle(featuredArticle)}
-          className="group relative bg-white border border-[#E8E2D8] hover:border-[#AA8B56] overflow-hidden cursor-pointer transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 shadow-sm hover:shadow-md"
+        <article
+          className="group relative bg-white border border-[#E8E2D8] hover:border-[#AA8B56] overflow-hidden transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 shadow-sm hover:shadow-md"
         >
           <div className="lg:col-span-7 aspect-[16/10] bg-[#FAF8F5] overflow-hidden">
-            <ImageWithFallback
-              src={featuredArticle.featuredImage}
-              alt={featuredArticle.title}
-              aspectRatio="aspect-[16/10]"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
+            <Link to={`/blog/${featuredArticle.slug}`} className="block w-full h-full" title={featuredArticle.title}>
+              <ImageWithFallback
+                src={featuredArticle.featuredImage}
+                alt={featuredArticle.title}
+                aspectRatio="aspect-[16/10]"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            </Link>
           </div>
 
           <div className="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between space-y-6">
@@ -85,7 +87,9 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({
               </div>
 
               <h2 className="font-serif text-2xl sm:text-3xl text-[#1E1B18] group-hover:text-[#8F7040] transition-colors leading-tight">
-                {featuredArticle.title}
+                <Link to={`/blog/${featuredArticle.slug}`} title={featuredArticle.title}>
+                  {featuredArticle.title}
+                </Link>
               </h2>
 
               <p className="text-xs sm:text-sm text-[#666057] leading-relaxed font-light">
@@ -98,13 +102,17 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({
                 <strong className="block text-[#1E1B18] font-medium">{featuredArticle.author.name}</strong>
                 <span className="text-[11px] text-[#8E877D]">{featuredArticle.author.role}</span>
               </div>
-              <span className="inline-flex items-center gap-1.5 text-xs text-[#AA8B56] font-semibold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
+              <Link
+                to={`/blog/${featuredArticle.slug}`}
+                className="inline-flex items-center gap-1.5 text-xs text-[#AA8B56] font-semibold uppercase tracking-wider group-hover:translate-x-1 transition-transform"
+                title={`Read full guide: ${featuredArticle.title}`}
+              >
                 <span>Read Story</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </span>
+              </Link>
             </div>
           </div>
-        </div>
+        </article>
       )}
 
       {/* Filter and Search Bar */}
@@ -168,17 +176,18 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({
             {filteredArticles.map((article) => (
               <article
                 key={article.id}
-                onClick={() => onSelectArticle(article)}
-                className="group bg-white border border-[#E8E2D8] hover:border-[#AA8B56] transition-all duration-300 flex flex-col justify-between cursor-pointer shadow-sm hover:shadow-md"
+                className="group bg-white border border-[#E8E2D8] hover:border-[#AA8B56] transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-md"
               >
                 <div>
                   <div className="aspect-[16/10] bg-[#FAF8F5] overflow-hidden">
-                    <ImageWithFallback
-                      src={article.featuredImage}
-                      alt={article.title}
-                      aspectRatio="aspect-[16/10]"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                    <Link to={`/blog/${article.slug}`} className="block w-full h-full" title={article.title}>
+                      <ImageWithFallback
+                        src={article.featuredImage}
+                        alt={article.title}
+                        aspectRatio="aspect-[16/10]"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </Link>
                   </div>
 
                   <div className="p-6 space-y-3">
@@ -190,7 +199,9 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({
                     </div>
 
                     <h3 className="font-serif text-xl text-[#1E1B18] group-hover:text-[#8F7040] transition-colors leading-snug line-clamp-2">
-                      {article.title}
+                      <Link to={`/blog/${article.slug}`} title={article.title}>
+                        {article.title}
+                      </Link>
                     </h3>
 
                     <p className="text-xs text-[#666057] line-clamp-3 leading-relaxed">
@@ -201,10 +212,14 @@ export const BlogListingPage: React.FC<BlogListingPageProps> = ({
 
                 <div className="p-6 pt-0 border-t border-[#F4EFE6] flex items-center justify-between text-xs text-[#8E877D]">
                   <span>{article.author.name}</span>
-                  <span className="inline-flex items-center gap-1 text-[#AA8B56] font-medium group-hover:translate-x-1 transition-transform">
-                    <span>Read</span>
+                  <Link
+                    to={`/blog/${article.slug}`}
+                    className="inline-flex items-center gap-1 text-[#AA8B56] font-medium group-hover:translate-x-1 transition-transform"
+                    title={`Read guide: ${article.title}`}
+                  >
+                    <span>Read Article</span>
                     <ArrowRight className="w-3 h-3" />
-                  </span>
+                  </Link>
                 </div>
               </article>
             ))}

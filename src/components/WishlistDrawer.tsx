@@ -25,7 +25,7 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
 
   const totalEstimate = items.reduce((sum, item) => sum + item.price, 0);
 
-  const whatsappMessage = `Hello Vanya Jewellers, I have curated a private wishlist of pieces for my upcoming milestone:\n${items
+  const whatsappMessage = `Hello ${STORE_CONFIG.storeName}, I have curated a private wishlist of pieces for my upcoming milestone:\n${items
     .map((item, idx) => `${idx + 1}. ${item.name} (${item.metal}, ${item.priceDisplay})`)
     .join("\n")}\n\nPlease share availability for viewing at your showroom.`;
 
@@ -60,7 +60,7 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {items.length === 0 ? (
             <div className="py-16 text-center space-y-3">
-              <span className="font-serif text-4xl text-[#D8C6A5]">VJ</span>
+              <span className="font-serif text-4xl text-[#D8C6A5]">NJ</span>
               <h4 className="font-serif text-lg text-[#1E1B18]">Your Wishlist is Empty</h4>
               <p className="text-xs text-[#8E877D] max-w-xs mx-auto leading-relaxed">
                 Save pieces as you explore our collections to easily consult with our senior jewellery stylists or family members.
