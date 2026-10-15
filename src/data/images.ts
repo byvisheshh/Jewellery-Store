@@ -1,5 +1,7 @@
+import padmavathiNakashiBanglesImg from "../assets/images/padmavathi_nakashi_bangles_1792039800075.jpg";
+
 /**
- * Centralized repository for all imagery used across the Vanya Jewellers application.
+ * Centralized repository for all imagery used across the Nilam Jewellers application.
  * All photographs are selected for realistic, authentic jewellery presentation,
  * featuring real gold ornaments, real diamonds, authentic Indian bridal craftsmanship,
  * and natural human photography without synthetic AI artifacts.
@@ -69,7 +71,7 @@ export const IMAGES = {
     raniHaar: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&w=1000&q=80",
     solitaireRing: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1000&q=80",
     templeChoker: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1000&q=80",
-    goldBangles: "https://images.unsplash.com/photo-1611591475806-231a47347fa6?auto=format&fit=crop&w=1000&q=80",
+    goldBangles: padmavathiNakashiBanglesImg,
     diamondEarrings: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=1000&q=80",
     mensKada: "https://images.unsplash.com/photo-1622398925373-3f91b1e275f5?auto=format&fit=crop&w=1000&q=80",
     polkiBridalSet: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=1000&q=80",
@@ -123,8 +125,8 @@ export const IMAGES = {
       caption: "A solitaire cut to perfection. Certified brilliance in 18K yellow gold. #SolitaireMoments",
     },
     {
-      url: "https://images.unsplash.com/photo-1611591475806-231a47347fa6?auto=format&fit=crop&w=600&q=80",
-      caption: "Handcrafted 22K Nakashi kadas with floral motifs. A generational legacy. #HeirloomGold",
+      url: padmavathiNakashiBanglesImg,
+      caption: "Handcrafted 22K Nakashi kadas with floral motifs. A generational legacy. #HeirloomGold #NilamJewellers",
     },
     {
       url: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=600&q=80",
